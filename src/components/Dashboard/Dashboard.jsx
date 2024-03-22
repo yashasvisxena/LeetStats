@@ -1,12 +1,13 @@
-import Form from "./Form"
-
+import Form from "./Form";
+import StudentList from "./StudentList";
 
 const Dashboard = () => {
   return (
-    <div className="flex h-full m-4 relative bg-slate-900">
-        <Form/>
+    <div className="flex h-full px-5 py-5 space-x-3 w-full relative">
+      <StudentList />
+      <Form />
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

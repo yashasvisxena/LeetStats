@@ -181,3 +181,7 @@
 .input:checked + .slider:before {
   transform: translateX(30px);
 }
+
+input::file-selector-button {
+  color:var(--accent-foreground);
+}
