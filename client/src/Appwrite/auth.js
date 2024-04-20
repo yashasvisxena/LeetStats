@@ -18,8 +18,7 @@ export class AuthService {
         name
       );
       if (userAccount) {
-        //call another method to login
-        return await this.login({ email, password });
+         return await this.login({ email, password });
       } else {
         return userAccount;
       }
