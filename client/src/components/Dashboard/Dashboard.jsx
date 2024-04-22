@@ -1,11 +1,12 @@
 import Form from "./Form";
+import SearchReload from "./SearchReload";
 import StudentList from "./StudentList";
 
 const Dashboard = () => {
   return (
-    <div className="flex h-full px-5 py-5 space-x-3 w-full relative">
+    <div className="flex flex-col h-full px-5 py-5 space-y-3 w-full relative">
+      <SearchReload />
       <StudentList />
-      <Form />
     </div>
   );
 };
