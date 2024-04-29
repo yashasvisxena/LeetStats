@@ -14,7 +14,7 @@ const StudentList = () => {
     <div className="flex flex-col border rounded-lg ">
       <Table>
         <TableHeader>
-          <TableRow className="text-xs sm:text-lg">
+          <TableRow className="text-xs sm:text-base">
             <TableHead className="text-center">Student Name</TableHead>
             <TableHead className="text-center">Student Username</TableHead>
             <TableHead className="text-center">Problems</TableHead>
