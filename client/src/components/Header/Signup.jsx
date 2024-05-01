@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { handleSubmit, register } from "react-hook-form";
 import authService from "@/Appwrite/auth";
 import { login } from "@/Store/authSlice";
 
@@ -16,7 +15,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Form } from "..";
 
 const Signup = () => {
   const [error, setError] = useState("");
