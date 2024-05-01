@@ -1,10 +1,8 @@
 import { ThemeProvider } from "@/Contexts/Theme";
 import { useState, useEffect } from "react";
 import { DarkLight, logo, Form, LogoutBtn } from "../index";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Button } from "../ui/button";
 
 const Navbar = () => {
   const [themeMode, setThemeMode] = useState("dark");
@@ -25,13 +23,6 @@ const Navbar = () => {
 
   const navigate = useNavigate();
 
-  const items = [
-    {
-      title: "Signup / Login",
-      path: "/login",
-      active: !authStatus,
-    },
-  ];
 
   return (
     <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
@@ -45,15 +36,7 @@ const Navbar = () => {
         </div>
         <div className="flex items-center justify-center">
           <DarkLight />
-          <ul className="flex">
-            {items.map((item) =>
-              item.active ? (
-                <li key={item.title}>
-                  <Button className="p-1 sm:text-base text-sm" onClick={()=>{navigate(item.path)}}>{item.title}</Button>
-                </li>
-              ) : null
-            )}
-          </ul>
+          {authStatus && null}
           {authStatus && <LogoutBtn />}
         </div>
       </div>
