@@ -66,12 +66,12 @@ export class Service {
     }
   }
 
-  async listStudents(userId) {
+  async listStudents(query) {
     try {
       return await this.databases.listDocuments(
         conf.databaseId,
         conf.studentId,
-        [Query.equal("userId", userId), Query.orderAsc("studentName")]
+        [query]
       );
     } catch (error) {
       console.log("Appwrite service :: listStudents :: error ", error);

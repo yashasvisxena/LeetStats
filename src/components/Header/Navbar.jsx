@@ -25,7 +25,8 @@ const Navbar = () => {
   return (
     <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
       <div className="w-full flex justify-between items-center px-4 py-4 relative top-0">
-        {authStatus && <Form />}
+        {/* {authStatus && <Form />} */}
+        <Form/>
         <div className="flex items-center">
           <img src={logo} alt="logo" className="w-8 h-8 sm:w-12 sm:h-12" />
           <h2 className="text-center scroll-m-20 border-b text-lg sm:text-4xl font-semibold tracking-tight ">

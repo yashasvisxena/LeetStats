@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import React from "react";
 import { useDispatch } from "react-redux";
 import { AuthService } from "@/Appwrite/auth";
 import { logout } from "@/Store/authSlice";
