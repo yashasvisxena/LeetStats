@@ -12,14 +12,43 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import service from "@/Appwrite/config";
+import { FileSubmit } from "../Dashboard/FileSubmit";
 
 const Form = () => {
+  const { register, handleSubmit, watch, setValue, control, getValues } =
+    useForm({
+      defaultValues: {
+        studentName: "",
+        userName: "",
+      },
+    });
+
+    const navigate = useNavigate();
+    const userData = useSelector(state=>state.user.userData)
+
+    const submitStudent = async(data)=>{
+      const student=service.getStudent(data.userName);
+      if(student && userData.$id == student.teacherId ){
+        service.updateStudent(student.$id,{
+          ...data ,
+           userId : userData.$id 
+        });
+      }
+      else{
+        service.addStudent(data.studentName, data.userName, userData.$id)
+      }
+    }
+
   return (
     <Sheet className="w-1/12">
       <SheetTrigger asChild>
         <Menu className="w-4 h-4 sm:h-6 sm:w-6" />
       </SheetTrigger>
-      <SheetContent side='left'>
+      <SheetContent side="left">
         <Card className="my-6">
           <CardHeader>
             <CardTitle>Add Students Data</CardTitle>
@@ -29,10 +58,7 @@ const Form = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="picture">.xlsx/.csv file</Label>
-              <Input className="" id="file" type="file" />
-            </div>
+            <FileSubmit/>
           </CardContent>
           <h1 className="flex justify-center">OR</h1>
           <CardContent>
@@ -46,10 +72,8 @@ const Form = () => {
                 placeholder="LeetCode Username"
               />
             </div>
+            <Button type="submit">Add</Button>
           </CardContent>
-          <CardFooter className="flex justify-center">
-            <Button>Add</Button>
-          </CardFooter>
         </Card>
       </SheetContent>
     </Sheet>

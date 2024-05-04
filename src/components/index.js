@@ -5,11 +5,11 @@ import container from "./Container/container";
 import Login from "@/components/Header/Login"
 import Signup from "@/components/Header/Signup";
 import LogoutBtn from "./Header/LogoutBtn";
-import InBtn from "./Header/InBtn";
+import FileSubmit from "./Dashboard/FileSubmit";
 
 export {
+    FileSubmit,
     DarkLight,
-    InBtn,
     Login,
     Signup,
     logo,

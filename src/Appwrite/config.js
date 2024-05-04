@@ -44,7 +44,7 @@ export class Service {
     }
   }
 
-  async updateStudent(studentUserName, { studentName, newUserName }) {
+  async updateStudent(studentUserName, { studentName, newUserName, userId }) {
     try {
       this.deleteStudent(studentUserName);
       this.addStudent({ studentName, newUserName, userId });
@@ -75,60 +75,6 @@ export class Service {
       );
     } catch (error) {
       console.log("Appwrite service :: listStudents :: error ", error);
-      return false;
-    }
-  }
-
-  async addTeacher({ teacherName, fileId, userId }) {
-    try {
-      return await this.databases.createDocument(
-        conf.databaseId,
-        conf.teacherId,
-        userId,
-        {
-          teacherName,
-          fileId,
-          userId,
-        }
-      );
-    } catch (error) {
-      console.log("Appwrite service :: addTeacher :: error ", error);
-    }
-  }
-
-  async updateTeacher(userId, { fileId }) {
-    try {
-      return await this.databases.updateDocument(
-        conf.databaseId,
-        conf.teacherId,
-        userId,
-        {
-          FileId : fileId,
-        }
-      );
-    } catch (error) {
-      console.log("Appwrite service :: updateTeacher :: error ", error);
-    }
-  }
-  // file upload service
-  async uploadFile(file, userId ,fileId) {
-    try {
-      this.deleteFile(fileId);
-      const id = ID.unique();
-      await this.bucket.createFile(conf.storageId, id, file);
-      this.updateTeacher(userId, { id });
-    } catch (error) {
-      console.log("Appwrite service :: uploadFile :: error ", error);
-      return false;
-    }
-  }
-
-  async deleteFile(fileId) {
-    try {
-      await this.bucket.deleteFile(conf.storageId, fileId);
-      return true;
-    } catch (error) {
-      console.log("Appwrite service :: deleteFile :: error ", error);
       return false;
     }
   }

@@ -1,7 +1,6 @@
 import { ThemeProvider } from "@/Contexts/Theme";
 import { useState, useEffect } from "react";
 import { DarkLight, logo, Form, LogoutBtn } from "../index";
-import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Navbar = () => {
@@ -21,7 +20,6 @@ const Navbar = () => {
 
   const authStatus = useSelector((state) => state.auth.status);
 
-  const navigate = useNavigate();
 
 
   return (
