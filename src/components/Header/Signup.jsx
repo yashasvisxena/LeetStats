@@ -80,6 +80,7 @@ const Signup = () => {
               <Input
                 id="password"
                 type="password"
+                placeholder="Enter Password"
                 {...register("password", {
                   required: true,
                 })}
@@ -88,9 +89,9 @@ const Signup = () => {
             <Button type="submit" className="w-full">
               Create an account
             </Button>
-            <Button variant="outline" className="w-full">
+            {/* <Button variant="outline" className="w-full">
               Sign up with Google
-            </Button>
+            </Button> */}
           </div>
           <div className="mt-4 text-center text-sm">
             Already have an account?{" "}

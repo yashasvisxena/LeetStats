@@ -1,6 +1,6 @@
 import { ThemeProvider } from "@/Contexts/Theme";
 import { useState, useEffect } from "react";
-import { DarkLight, logo, Form, LogoutBtn } from "../index";
+import { DarkLight, logo, Form, LogoutBtn, LoginBtn } from "../index";
 import { useSelector } from "react-redux";
 
 const Navbar = () => {
@@ -20,8 +20,7 @@ const Navbar = () => {
 
   const authStatus = useSelector((state) => state.auth.status);
 
-
-
+  
   return (
     <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
       <div className="w-full flex justify-between items-center px-4 py-4 relative top-0">
@@ -35,7 +34,7 @@ const Navbar = () => {
         </div>
         <div className="flex items-center justify-center">
           <DarkLight />
-          {authStatus && null}
+          {!authStatus && <LoginBtn />}
           {authStatus && <LogoutBtn />}
         </div>
       </div>
