@@ -1,10 +1,11 @@
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import Navbar from "./components/Header/Navbar";
-import Dashboard from "./components/Dashboard/Dashboard";
+// import Dashboard from "./components/Dashboard/Dashboard";
 import authService from "./Appwrite/auth";
 import { login, logout } from "./Store/authSlice";
 import Footer from "./components/Footer/Footer";
+import { Outlet } from "react-router-dom";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -26,9 +27,11 @@ function App() {
 
   return !loading ? (
     <div className="flex flex-col w-full h-full">
-      <Navbar/>
-      <Dashboard />
-      <Footer/>
+      <Navbar />
+      <main>
+        <Outlet />
+      </main>
+      <Footer />
     </div>
   ) : null;
 }

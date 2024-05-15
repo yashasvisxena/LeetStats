@@ -1,19 +1,22 @@
 import DarkLight from "./Header/DarkLight";
 import logo from "@/assets/logo.png";
 import Form from "./Dashboard/Form";
-import container from "./Container/container";
 import Login from "@/components/Header/Login"
 import Signup from "@/components/Header/Signup";
 import LogoutBtn from "./Header/LogoutBtn";
 import FileSubmit from "./Dashboard/FileSubmit";
-
+import Home from "./Home/Home";
+import Protected from "./Header/AuthLayout";
+import Dashboard from "./Dashboard/Dashboard";
 export {
     FileSubmit,
-    DarkLight,
+    Protected,
     Login,
     Signup,
     logo,
     Form,
-    container,
-    LogoutBtn
+    LogoutBtn,
+    Home,
+    DarkLight,
+    Dashboard
 }
