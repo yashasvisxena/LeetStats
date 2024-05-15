@@ -1,7 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import Navbar from "./components/Header/Navbar";
-// import Dashboard from "./components/Dashboard/Dashboard";
 import authService from "./Appwrite/auth";
 import { login, logout } from "./Store/authSlice";
 import Footer from "./components/Footer/Footer";

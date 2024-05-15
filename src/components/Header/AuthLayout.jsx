@@ -10,13 +10,12 @@ const Protected = ({children,authentication=true}) => {
     const authStatus = useSelector(state=>state.auth.status);
 
     useEffect(()=>{
-        if(authStatus===false){
-            navigate('/login');
+        if(authentication && authStatus !== authentication){
+            navigate("/login")
+        } else if(!authentication && authStatus !== authentication){
+            navigate("/")
         }
-        else if(authStatus===true){
-            navigate('/dashboard');
-        }
-        setLoader(false);
+        setLoader(false)
     },[authStatus,navigate,authentication])
   return loader ? <div className="text-5xl loader">Loading ...</div> : children
 }
