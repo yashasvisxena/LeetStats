@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const LoginBtn = () => {
   return (
     <Link to="/login">
-      <Button>Login / Signup</Button>
+      <Button className="p-1 text-xs sm:text-sm">Login / Signup</Button>
     </Link>
   );
 };
