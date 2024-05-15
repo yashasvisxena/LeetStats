@@ -30,8 +30,8 @@ const Signup = () => {
         const userData = await authService.getCurrentUser();
         if (userData) {
           dispatch(login(userData));
+          navigate("/dashboard");
         }
-        navigate("/dashboard");
       }
     } catch (err) {
       setError(err.message);
@@ -39,7 +39,7 @@ const Signup = () => {
   };
 
   return (
-    <Card className="mx-auto max-w-sm">
+    <Card className="mx-7 sm:mx-auto max-w-sm">
       <CardHeader>
         <CardTitle className="text-xl">Sign Up</CardTitle>
         <CardDescription>
