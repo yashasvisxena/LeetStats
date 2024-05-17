@@ -39,7 +39,7 @@ const Signup = () => {
   };
 
   return (
-    <Card className="mx-7 sm:mx-auto max-w-sm">
+    <Card className="mx-7 sm:mx-auto sm:w-4/12">
       <CardHeader>
         <CardTitle className="text-xl">Sign Up</CardTitle>
         <CardDescription>

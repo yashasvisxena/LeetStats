@@ -1,12 +1,16 @@
-
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 
 const LoginBtn = () => {
   return (
-    <Link to="/login">
-      <Button className="p-1 text-xs sm:text-sm">Login / Signup</Button>
-    </Link>
+    <div className="space-x-2">
+      <Link to="/login">
+        <Button className="p-1 sm:p-4 text-xs sm:text-base">Login</Button>
+      </Link>
+      <Link to='/signup'>
+        <Button className="p-1 sm:p-4 text-xs sm:text-base">Sign Up</Button>
+      </Link>
+    </div>
   );
 };
 

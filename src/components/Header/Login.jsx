@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import authService from "@/Appwrite/auth";
 import { useForm } from "react-hook-form";
@@ -39,7 +39,7 @@ const Login = () => {
     }
   };
   return (
-    <Card className="mx-7 sm:mx-auto max-w-sm">
+    <Card className="mx-7 sm:mx-auto sm:w-4/12">
       <CardHeader>
         <CardTitle className="text-2xl">Login</CardTitle>
         <CardDescription>
@@ -81,10 +81,12 @@ const Login = () => {
           </div>
           {error && <p className="text-red-500">{error}</p>}
         </CardContent>
+        <CardFooter>
+          <Button className="w-full" type="submit">
+            Sign in
+          </Button>
+        </CardFooter>
       </form>
-      <CardFooter>
-        <Button className="w-full">Sign in</Button>
-      </CardFooter>
     </Card>
   );
 };

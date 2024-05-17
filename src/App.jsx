@@ -25,7 +25,7 @@ function App() {
   }, []);
 
   return !loading ? (
-    <div className="flex flex-col w-full h-full">
+    <div className=" app flex flex-col w-full h-full">
       <Navbar />
       <main>
         <Outlet />

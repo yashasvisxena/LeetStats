@@ -1,16 +1,14 @@
 /* eslint-disable no-unused-vars */
 import conf from "../conf/conf";
-import { Client, ID, Databases, Storage, Query } from "appwrite";
+import { Client, ID, Databases, Query } from "appwrite";
 
 export class Service {
   client = new Client();
   databases;
-  bucket;
 
   constructor() {
     this.client.setEndpoint(conf.appwriteUrl).setProject(conf.projectId);
     this.databases = new Databases(this.client);
-    this.bucket = new Storage(this.client);
   }
 
   async addStudent({ studentName, studentUserName, userId }) {
