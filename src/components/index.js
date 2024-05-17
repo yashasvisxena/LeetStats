@@ -9,6 +9,7 @@ import Home from "./Home/Home";
 import Protected from "./Header/AuthLayout";
 import Dashboard from "./Dashboard/Dashboard";
 import LoginBtn from "./Header/LoginBtn";
+import Loader from "./Loader/Loader";
 export {
   FileSubmit,
   Protected,
@@ -18,6 +19,7 @@ export {
   Form,
   LogoutBtn,
   Home,
+  Loader,
   DarkLight,
   Dashboard,
   LoginBtn,
