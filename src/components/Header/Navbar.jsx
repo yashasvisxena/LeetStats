@@ -29,7 +29,7 @@ const Navbar = () => {
   return (
     <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
       <div className="w-full flex sm:justify-between justify-between items-center px-4 py-4 left-0 right-0 top-0">
-        <div className="flex items-center">
+        <div className="flex sm:space-x-4 items-center">
         {authStatus && <Form />}
         <Link to="/" className="flex items-center">
           <img src={logo} alt="logo" className="w-8 h-8 sm:w-12 sm:h-12" />
@@ -38,13 +38,13 @@ const Navbar = () => {
           </h2>
         </Link>
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center space-x-1">
           <DarkLight />
           {authStatus && pathname != "/dashboard" && (
             <Link to="/dashboard">
               <Button
-                variant="link"
-                className="p-1 sm:p-4 text-xs sm:text-base"
+                variant=""
+                className="text-xs p-1 sm:p-4 sm:text-base"
               >
                 DashBoard
               </Button>

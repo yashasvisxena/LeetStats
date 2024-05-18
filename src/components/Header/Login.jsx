@@ -28,17 +28,24 @@ const Login = () => {
   const login = async (data) => {
     setError("");
     try {
-      setLoading(true);
       const user = await authService.login(data);
       if (user) {
+        setLoading(true);
         const userData = await authService.getCurrentUser();
         if (userData) {
-          dispatch(storeLogin(userData));
+          await dispatch(storeLogin(userData));
           navigate("/dashboard");
         }
       }
     } catch (err) {
-      setError(err.message);
+      let errorMessage = err.message || 'An error occurred during login.';
+      if (errorMessage.includes('Invalid credentials. Please check the email and password.')) {
+        errorMessage = 'Invalid credentials. Please check the email and password or create a new account.';
+      }
+      if (errorMessage.includes('in this project')) {
+        errorMessage = errorMessage.replace(' in this project', '');
+      }
+      setError(errorMessage);
     }
     finally{
       setLoading(false);
@@ -46,7 +53,7 @@ const Login = () => {
   };
   return (
     loading ? <Loader/> :
-    <Card className="mx-7 sm:mx-auto sm:w-4/12">
+    <Card className="mx-7 sm:mx-auto sm:w-4/12 self-center">
       <CardHeader>
         <CardTitle className="text-2xl">Login</CardTitle>
         <CardDescription>
@@ -55,6 +62,7 @@ const Login = () => {
       </CardHeader>
       <form onSubmit={handleSubmit(login)}>
         <CardContent className="grid gap-4">
+        {error && <p className="text-red-500 text-sm sm:text-base text-center">{error}</p>}
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -86,7 +94,6 @@ const Login = () => {
               Sign up
             </Link>
           </div>
-          {error && <p className="text-red-500">{error}</p>}
         </CardContent>
         <CardFooter>
           <Button className="w-full" type="submit">

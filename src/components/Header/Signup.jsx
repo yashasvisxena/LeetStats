@@ -27,18 +27,23 @@ const Signup = () => {
   const signup = async (data) => {
     setError("");
     try {
-      setLoading(true);
       const account = await authService.createAccount(data);
       if (account) {
+        setLoading(true);
         const userData = await authService.getCurrentUser();
         if (userData) {
-          dispatch(login(userData));
+          await dispatch(login(userData));
           navigate("/dashboard");
         }
       }
-    } catch (err) {
-      setError(err.message);
-    }
+      }
+      catch (err) {
+        let errorMessage = err.message || 'An error occurred during login.';
+        if (errorMessage.includes('in this project')) {
+          errorMessage = errorMessage.replace(' in this project', '');
+        }
+        setError(errorMessage);
+      }
     finally{
       setLoading(false);
     }
@@ -46,7 +51,7 @@ const Signup = () => {
 
   return (
     loading ? <Loader/> : 
-    <Card className="mx-7 sm:mx-auto sm:w-4/12">
+    <Card className="mx-7 sm:mx-auto sm:w-4/12 self-center">
     <CardHeader>
       <CardTitle className="text-xl">Sign Up</CardTitle>
       <CardDescription>
@@ -55,6 +60,7 @@ const Signup = () => {
     </CardHeader>
     <form onSubmit={handleSubmit(signup)}>
       <CardContent>
+        {error && <p className="text-red-500 text-xs sm:text-base text-center">{error}</p>}
         <div className="grid gap-4">
           <div className="grid gap-2">
             <Label htmlFor="name">Name</Label>
@@ -93,7 +99,7 @@ const Signup = () => {
               })}
             />
           </div>
-          <Button type="submit" className="w-full">
+          <Button className="w-full">
             Create an account
           </Button>
           {/* <Button variant="outline" className="w-full">
@@ -106,7 +112,6 @@ const Signup = () => {
             Sign in
           </Link>
         </div>
-        {error && <p className="text-red-500">{error}</p>}
       </CardContent>
     </form>
   </Card>
