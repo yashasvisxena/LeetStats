@@ -121,10 +121,18 @@
   .astronaut {
     width: 250px;
     height: 300px;
+    scale: 0.5;
     position: relative;
     z-index: 11;
     animation: astronaut 3s linear infinite;
   }
+
+  @media (min-width: 640px) {
+    .astronaut {
+      scale: 1;
+    }
+  }
+  
   
   .schoolbag {
     width: 100px;
