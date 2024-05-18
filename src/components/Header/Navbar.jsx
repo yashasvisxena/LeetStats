@@ -10,7 +10,10 @@ const Navbar = () => {
   const { pathname } = location;
   // console.log(pathname)
 
-  const [themeMode, setThemeMode] = useState("dark");
+  const [themeMode, setThemeMode] = useState(() => {
+    return localStorage.getItem("themeMode") || "dark";
+  });
+
   const lightTheme = () => {
     setThemeMode("light");
   };
@@ -22,6 +25,7 @@ const Navbar = () => {
   useEffect(() => {
     document.querySelector("html").classList.remove("light", "dark");
     document.querySelector("html").classList.add(themeMode);
+    localStorage.setItem("themeMode", themeMode); // Store user's theme choice in local storage
   }, [themeMode]);
 
   const authStatus = useSelector((state) => state.auth.status);
