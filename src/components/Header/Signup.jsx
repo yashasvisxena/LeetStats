@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "@/Appwrite/auth";
 import { login } from "@/Store/authSlice";
-import { Loader } from "../index";
+import Loader from "../Loader/Loader";
 
 import { Button } from "@/components/ui/button";
 import {

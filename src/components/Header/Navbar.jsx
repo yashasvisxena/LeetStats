@@ -1,6 +1,10 @@
 import { ThemeProvider } from "@/Contexts/Theme";
 import { useState, useEffect } from "react";
-import { DarkLight, logo, Form, LogoutBtn, LoginBtn } from "../index";
+import DarkLight from "./DarkLight";
+import logo from "../../assets/logo.png";
+import Form from "../Dashboard/Form";
+import LogoutBtn from "./LogoutBtn";
+import LoginBtn from "./LoginBtn";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "../ui/button";

@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import authService  from "@/Appwrite/auth";
 import { logout } from "@/Store/authSlice";
 import { Button } from "../ui/button";
-import { Loader } from '../index';
+import Loader from '../Loader/Loader';
 
 const LogoutBtn = () => {
   const [loading, setLoading] = useState(false);

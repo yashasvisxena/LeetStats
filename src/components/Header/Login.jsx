@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import authService from "@/Appwrite/auth";
 import { useForm } from "react-hook-form";
 import { login as storeLogin } from "@/Store/authSlice";
-import { Loader } from "../index";
+import Loader from "../Loader/Loader";
 
 import { Button } from "@/components/ui/button";
 import {
