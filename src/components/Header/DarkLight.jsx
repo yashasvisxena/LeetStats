@@ -10,7 +10,7 @@ function DarkLight() {
         }
     }
   return (
-    <div className="Darklight sm:mx-4 scale-75 sm:scale-100">
+    <div className="Darklight scale-50 sm:scale-75">
     <label className="switch">
       <span className="sun">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

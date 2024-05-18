@@ -13,7 +13,7 @@ const LogoutBtn = () => {
     });
     navigate("/");
   };
-  return <Button onClick={logoutHandler} className="" variant="destructive">Logout</Button>;
+  return <Button onClick={logoutHandler} className="text-xs p-1 sm:p-4 min sm:text-base" variant="destructive">Logout</Button>;
 };
 
 export default LogoutBtn;

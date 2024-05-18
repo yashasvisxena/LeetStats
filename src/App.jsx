@@ -26,13 +26,13 @@ function App() {
   }, []);
 
   return (
-    <div className=" app flex flex-col w-full h-full absolute">
-      <Navbar />
-      <main className=" flex w-full h-full justify-center items-center">
-      {!loading ? <Outlet /> : <Loader/>}
-      </main>
-      <Footer />
-    </div>
+      <div className=" app flex flex-col min-h-screen">
+        <Navbar />
+        <main className="flex justify-center flex-grow">
+        {!loading ? <Outlet/> : <Loader/>}
+        </main>
+        <Footer />
+      </div>
   ) 
 }
 

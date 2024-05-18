@@ -1,7 +1,7 @@
 const Loader = () => {
   return (
-    <div className="h-full w-full">
-      <div className="box-of-star1">
+    <div className="">
+      {/* <div className="box-of-star1">
         <div className="star star-position1"></div>
         <div className="star star-position2"></div>
         <div className="star star-position3"></div>
@@ -36,7 +36,7 @@ const Loader = () => {
         <div className="star star-position5"></div>
         <div className="star star-position6"></div>
         <div className="star star-position7"></div>
-      </div>
+      </div> */}
       <div data-js="astro" className="astronaut">
         <div className="head"></div>
         <div className="arm arm-left"></div>

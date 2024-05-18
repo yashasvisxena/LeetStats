@@ -28,15 +28,17 @@ const Navbar = () => {
 
   return (
     <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
-      <div className="w-full flex sm:justify-around justify-between items-center px-4 py-4  left-0 right-0 top-0">
+      <div className="w-full flex sm:justify-between justify-between items-center px-4 py-4 left-0 right-0 top-0">
+        <div className="flex items-center">
         {authStatus && <Form />}
         <Link to="/" className="flex items-center">
           <img src={logo} alt="logo" className="w-8 h-8 sm:w-12 sm:h-12" />
-          <h2 className="text-center scroll-m-20 border-b text-xl sm:text-4xl font-semibold tracking-tight ">
+          <h2 className="text-center scroll-m-20 border-b text-lg sm:text-4xl font-semibold tracking-tight">
             LeetStats
           </h2>
         </Link>
-        <div className="flex items-center justify-center">
+        </div>
+        <div className="flex items-center">
           <DarkLight />
           {authStatus && pathname != "/dashboard" && (
             <Link to="/dashboard">
@@ -44,7 +46,7 @@ const Navbar = () => {
                 variant="link"
                 className="p-1 sm:p-4 text-xs sm:text-base"
               >
-                Go to DashBoard
+                DashBoard
               </Button>
             </Link>
           )}

@@ -40,7 +40,9 @@ const Login = () => {
     } catch (err) {
       setError(err.message);
     }
-    setLoading(false);
+    finally{
+      setLoading(false);
+    }
   };
   return (
     loading ? <Loader/> :
