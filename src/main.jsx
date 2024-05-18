@@ -4,13 +4,11 @@ import "./index.css";
 import { Provider } from "react-redux";
 import store from "./Store/Store.js";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import {
-  Home,
-  Login,
-  Dashboard,
-  Signup,
-  Protected,
-} from "./components/index.js";
+import Home from "./components/Home/Home.jsx"
+import Login from "./components/Header/Login.jsx"
+import Dashboard from "./components/Dashboard/Dashboard.jsx"
+import Signup from "./components/Header/Signup.jsx"
+import Protected from "./components/Header/AuthLayout.jsx"
 
 const router = createBrowserRouter([
   {
