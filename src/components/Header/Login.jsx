@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import authService from "@/Appwrite/auth";
 import { useForm } from "react-hook-form";
 import { login as storeLogin } from "@/Store/authSlice";
+import { Loader } from "../index";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,10 +23,12 @@ const Login = () => {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const login = async (data) => {
     setError("");
     try {
+      setLoading(true);
       const user = await authService.login(data);
       if (user) {
         const userData = await authService.getCurrentUser();
@@ -37,8 +40,10 @@ const Login = () => {
     } catch (err) {
       setError(err.message);
     }
+    setLoading(false);
   };
   return (
+    loading ? <Loader/> :
     <Card className="mx-7 sm:mx-auto sm:w-4/12">
       <CardHeader>
         <CardTitle className="text-2xl">Login</CardTitle>
@@ -87,7 +92,7 @@ const Login = () => {
           </Button>
         </CardFooter>
       </form>
-    </Card>
+    </Card> 
   );
 };
 
