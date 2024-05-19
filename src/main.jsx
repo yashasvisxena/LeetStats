@@ -8,7 +8,7 @@ import Home from "./components/Home/Home.jsx"
 import Login from "./components/Header/Login.jsx"
 import Dashboard from "./components/Dashboard/Dashboard.jsx"
 import Signup from "./components/Header/Signup.jsx"
-import Protected from "./components/Header/AuthLayout.jsx"
+import AuthLayout from "./components/Header/AuthLayout.jsx"
 
 const router = createBrowserRouter([
   {
@@ -19,25 +19,25 @@ const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: (
-          <Protected authentication>
+          <AuthLayout authentication>
             <Dashboard />
-          </Protected>
+          </AuthLayout>
         ),
       },
       {
         path: "/login",
         element: (
-          // <Protected authentication={false}>
+          <AuthLayout authentication={false}>
             <Login />
-          // </Protected>
+          </AuthLayout>
         ),
       },
       {
         path: "/signup",
         element: (
-          <Protected authentication={false}>
+          <AuthLayout authentication={false}>
             <Signup />
-          </Protected>
+          </AuthLayout>
         ),
       },
     ],
