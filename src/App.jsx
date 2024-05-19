@@ -12,6 +12,7 @@ import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import Signup from "./components/Header/Signup.jsx";
 import AuthLayout from "./components/Header/AuthLayout.jsx";
 
+
 function App() {
   const [loading, setLoading] = useState(true);
 
@@ -30,13 +31,12 @@ function App() {
       .finally(() => setLoading(false));
   }, []);
 
-  if(loading) return <Loader/>;
 
   return (
       <div className=" app flex flex-col min-h-screen">
         <Navbar />
         <main className="flex justify-center flex-grow">
-          <Routes>
+          {loading?<Loader/>:<Routes>
           <Route path="" element={<Home />} />
                 <Route
                   path="dashboard"
@@ -52,7 +52,7 @@ function App() {
                 <Route path="signup" element={<AuthLayout authentication={false}>
                       <Signup />
                     </AuthLayout>} />
-          </Routes>
+          </Routes>}
         </main>
         <Footer />
       </div>
