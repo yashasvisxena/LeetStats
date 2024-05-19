@@ -4,8 +4,13 @@ import Navbar from "./components/Header/Navbar";
 import authService from "./Appwrite/auth";
 import { login, logout } from "./Store/authSlice";
 import Footer from "./components/Footer/Footer";
-import { Outlet } from "react-router-dom";
+import { Route,Routes } from "react-router-dom";
 import Loader from "./components/Loader/Loader";
+import Home from "./components/Home/Home.jsx";
+import Login from "./components/Header/Login.jsx";
+import Dashboard from "./components/Dashboard/Dashboard.jsx";
+import Signup from "./components/Header/Signup.jsx";
+import AuthLayout from "./components/Header/AuthLayout.jsx";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -25,11 +30,29 @@ function App() {
       .finally(() => setLoading(false));
   }, []);
 
+  if(loading) return <Loader/>;
+
   return (
       <div className=" app flex flex-col min-h-screen">
         <Navbar />
         <main className="flex justify-center flex-grow">
-        {!loading ? <Outlet/> : <Loader/>}
+          <Routes>
+          <Route path="" element={<Home />} />
+                <Route
+                  path="dashboard"
+                  element={
+                    <AuthLayout authentication>
+                      <Dashboard />
+                    </AuthLayout>
+                  }
+                />
+                <Route path="login" element={<AuthLayout authentication={false}>
+                      <Login />
+                    </AuthLayout>} />
+                <Route path="signup" element={<AuthLayout authentication={false}>
+                      <Signup />
+                    </AuthLayout>} />
+          </Routes>
         </main>
         <Footer />
       </div>
