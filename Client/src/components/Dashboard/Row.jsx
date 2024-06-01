@@ -3,15 +3,23 @@
 import { useQuery } from "@apollo/client";
 import { query as GET_STUDENT } from "@/Apollo/queries";
 import { TableRow, TableCell } from "@/components/ui/table";
-import Loader from "../Loader/Loader";
+import { useEffect } from "react";
 
-const StudentStatsRow = ({ student }) => {
-  const { loading, error, data} = useQuery(GET_STUDENT, {
+const StudentStatsRow = ({ student, refetch }) => {
+  const {
+    loading,
+    error,
+    data,
+    refetch: refetchQuery,
+  } = useQuery(GET_STUDENT, {
     variables: { username: student.studentUsername },
   });
+  useEffect(() => {
+    refetchQuery();
+  }, [refetch, refetchQuery]);
 
-  if (loading) return <Loader />;
-  if (error) return <TableRow>Error: {error.message}</TableRow>;
+  if (loading) return null;
+  if (error) return null;
 
   return (
     <TableRow className="text-center text-xs sm:text-base">
