@@ -38,10 +38,10 @@ const Navbar = () => {
     <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
       <div className="w-full flex sm:justify-between justify-between items-center px-4 py-4 left-0 right-0 top-0">
         <div className="flex sm:space-x-4 items-center">
-        {authStatus && <Form />}
+        {authStatus && pathname == "/dashboard" && <Form />}
         <Link to="/" className="flex items-center">
-          <img src={logo} alt="logo" className="w-8 h-8 sm:w-12 sm:h-12" />
-          <h2 className="text-center scroll-m-20 border-b text-lg sm:text-4xl font-semibold tracking-tight">
+          <img src={logo} alt="logo" className="w-10 h-10 sm:w-12 sm:h-12" />
+          <h2 className="text-center scroll-m-20 border-b text-2xl sm:text-4xl font-semibold tracking-tight">
             LeetStats
           </h2>
         </Link>

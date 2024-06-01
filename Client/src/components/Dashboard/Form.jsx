@@ -1,10 +1,10 @@
+import { useState } from "react";
 /* eslint-disable no-unused-vars */
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -14,35 +14,29 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import service from "@/Appwrite/config";
 import FileSubmit from "../Dashboard/FileSubmit";
 
 const Form = () => {
-  const { register, handleSubmit } =
-    useForm({
-      defaultValues: {
-        studentName: "",
-        userName: "",
-      },
-    });
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      studentName: "",
+      userName: "",
+    },
+  });
 
-  const navigate = useNavigate("/dashboard");
   const userData = useSelector((state) => state.auth.userData);
+  const [error, setError] = useState("");
 
   const submitStudent = async (data) => {
-    const student = service.getStudent(data.userName);
+    const student = await service.getStudent(data.userName);
     try {
-      if (student && userData.$id == student.teacherId) {
-        service.updateStudent(student.$id, {
-          ...data,
-          userId: userData.$id,
-        });
-      } else {
-        service.addStudent(data.studentName, data.userName, userData.$id);
-      }
+      if (student && userData.$id==student.userId) {setError("Student with userName already exists");return}
+      await service.addStudent(data.studentName, data.userName, userData.$id);
+      setError("")
+      window.location.reload();
     } catch (err) {
-      console.log(err);
+      setError(err.message);
     }
   };
 
@@ -67,6 +61,11 @@ const Form = () => {
           </CardContent>
           <h1 className="flex justify-center">OR</h1>
           <CardContent>
+            {error && (
+              <p className="text-red-500 text-sm sm:text-base text-center">
+                {error}
+              </p>
+            )}
             <form
               onSubmit={handleSubmit(submitStudent)}
               className="grid w-full max-w-sm items-center gap-3"

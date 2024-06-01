@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 /* eslint-disable no-unused-vars */
 import conf from "../conf/conf";
 import { Client, ID, Databases, Query } from "appwrite";
@@ -11,69 +12,66 @@ export class Service {
     this.databases = new Databases(this.client);
   }
 
-  async addStudent({ studentName, studentUserName, userId }) {
+  async addStudent(studentName, studentUsername , userId ) {
     try {
       return await this.databases.createDocument(
         conf.databaseId,
         conf.studentId,
-        studentUserName,
+        studentUsername ,
         {
           studentName,
-          studentUserName,
+          studentUsername ,
           userId,
         }
       );
     } catch (error) {
-      console.log("Appwrite service :: addStudent :: error ", error);
+      throw (error)
     }
   }
 
-  async deleteStudent(studentUserName) {
+  async deleteStudent(studentUsername ) {
     try {
       await this.databases.deleteDocument(
         conf.databaseId,
         conf.studentId,
-        studentUserName
+        studentUsername 
       );
       return true;
     } catch (error) {
-      console.log("Appwrite service :: deleteStudent :: error ", error);
-      return false;
+      throw (error)
     }
   }
 
-  async updateStudent(studentUserName, { studentName, newUserName, userId }) {
+  async updateStudent(studentUsername , { studentName, newUserName, userId }) {
     try {
-      this.deleteStudent(studentUserName);
+      this.deleteStudent(studentUsername );
       this.addStudent({ studentName, newUserName, userId });
     } catch (error) {
-      console.log("Appwrite service :: updateStudent :: error ", error);
+      throw (error)
     }
   }
 
-  async getStudent(studentUserName) {
+  async getStudent(studentUsername ) {
     try {
       return await this.databases.getDocument(
         conf.databaseId,
         conf.studentId,
-        studentUserName
-      );
+        studentUsername 
+      )
     } catch (error) {
-      console.log("Appwrite service :: getStudents :: error ", error);
-      return false;
+      return false
     }
   }
 
-  async listStudents(query) {
+  async listStudents(queries=[queries]) {
     try {
       return await this.databases.listDocuments(
         conf.databaseId,
         conf.studentId,
-        [query]
+        queries
       );
     } catch (error) {
-      console.log("Appwrite service :: listStudents :: error ", error);
-      return false;
+      throw (error)
     }
   }
 }
