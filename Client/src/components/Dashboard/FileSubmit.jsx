@@ -38,6 +38,7 @@ const FileSubmit = () => {
         setError(err.message);
       } finally {
         setLoading(false);
+        window.location.reload();
       }
     };
     reader.readAsBinaryString(file);
