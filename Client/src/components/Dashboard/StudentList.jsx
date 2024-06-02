@@ -28,7 +28,7 @@ import { Query } from "appwrite";
 const StudentList = () => {
   const user = useSelector((state) => state.auth.userData);
   const dispatch = useDispatch();
-  const [sort,setSort] = useState("name");
+  const [sort,setSort] = useState("Name");
 
   useEffect(() => {
     handleFetch();
@@ -68,16 +68,14 @@ const StudentList = () => {
       <div className="flex w-full items-center space-x-2">
         <Search className="w-4 h-4 sm:h-6 sm:w-6" />
         <Input
-          className="w-7/12 sm:w-5/12 text-xs sm:text-base"
+          className="w-4/12 text-xs sm:text-base"
           type="text"
           placeholder="Search By Name or Username"
         />
-        <Button variant="ghost" onClick={() => handleFetch()}>
-          <RefreshCcw className="w-4 h-4 sm:h-6 sm:w-6" />
-        </Button>
-        <Select onValueChange={(value)=>setSort(value)}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Sort By" />
+        <Select onValueChange={(value)=>setSort(value)} defaultValue="name">
+          <div>Sort By:</div>
+          <SelectTrigger className="w-[120px]">
+            <SelectValue placeholder="Name" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
@@ -86,6 +84,9 @@ const StudentList = () => {
             </SelectGroup>
           </SelectContent>
         </Select>
+        <Button variant="outline" onClick={() => handleFetch()}>
+          <RefreshCcw className="w-4 h-4 sm:h-6 sm:w-6" />
+        </Button>
       </div>
       {loading ? (
         <div className="text-center text-6xl">...Loading</div>
@@ -102,7 +103,7 @@ const StudentList = () => {
                 <TableHead className="text-center">Hard</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
+            <TableBody className="overflow-y-scroll">
               {data &&
                 sortedData().map((student) => {
                   const fallbackName = students.find(

@@ -31,7 +31,7 @@ function App() {
   }, []);
 
   return (
-    <div className=" app flex flex-col min-h-screen">
+    <div className="app flex flex-col min-h-screen overflow-y-hidden">
       <Navbar />
       <main className="flex justify-center flex-grow">
         {loading ? (
