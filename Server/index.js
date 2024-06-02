@@ -7,7 +7,7 @@ import axios from "axios";
 
 async function startServer() {
   const app = express();
-  const port= process.env PORT || 4000
+  const port= process.env.PORT || 4000
   const typeDefs = `
     type Student {
       studentName: String!
