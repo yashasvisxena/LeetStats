@@ -8,14 +8,17 @@ import { Button } from "../ui/button";
 
 import { useSelector } from "react-redux";
 import service from "@/Appwrite/config";
+import Loader from "../Loader/Loader";
 
 const FileSubmit = () => {
   const { register, handleSubmit } = useForm();
   const user = useSelector((state) => state.auth.userData);
   const [error, setError] = useState("");
+  const [loading,setLoading] = useState(false)
 
   async function FileRead(data) {
     setError("");
+    setLoading(true)
     const file = data.excelFile[0];
     const reader = new FileReader();
     reader.onload = async (e) => {
@@ -24,6 +27,7 @@ const FileSubmit = () => {
       const sheetName = workbook.SheetNames[0];
       const sheetData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
       try {
+
         for (const row of sheetData) {
           const student = await service.getStudent(row.UserName);
           if (student && user.$id == student.userId) {
@@ -34,9 +38,14 @@ const FileSubmit = () => {
       } catch (err) {
         setError(err.message);
       }
+      finally{
+        setLoading(false)
+      }
     };
     reader.readAsBinaryString(file);
   }
+
+  if(loading) return <Loader/>
 
   return (
     <form onSubmit={handleSubmit(FileRead)}>

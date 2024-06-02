@@ -17,7 +17,7 @@ export class Service {
       return await this.databases.createDocument(
         conf.databaseId,
         conf.studentId,
-        studentUsername ,
+        ID.unique() ,
         {
           studentName,
           studentUsername ,
@@ -56,7 +56,7 @@ export class Service {
       return await this.databases.getDocument(
         conf.databaseId,
         conf.studentId,
-        studentUsername 
+        [Query.equal("$id", studentUsername)]
       )
     } catch (error) {
       return false

@@ -5,6 +5,7 @@ import authService  from "@/Appwrite/auth";
 import { logout } from "@/Store/authSlice";
 import { Button } from "../ui/button";
 import Loader from '../Loader/Loader';
+import { setStudents, setUsernames } from '@/Store/studentSlice';
 
 const LogoutBtn = () => {
   const [loading, setLoading] = useState(false);
@@ -15,6 +16,8 @@ const LogoutBtn = () => {
     setLoading(true);
     await authService.logout().then(() => {
       dispatch(logout());
+      dispatch(setStudents([]));
+      dispatch(setUsernames([]))
     });
     setLoading(false);
     navigate("/");
