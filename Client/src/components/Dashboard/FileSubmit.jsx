@@ -5,7 +5,7 @@ import * as XLSX from "xlsx"; // For Excel files
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-
+import { Query } from "appwrite";
 import { useSelector } from "react-redux";
 import service from "@/Appwrite/config";
 import Loader from "../Loader/Loader";
@@ -28,8 +28,8 @@ const FileSubmit = () => {
       const sheetData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
       try {
         for (const row of sheetData) {
-          const student = await service.getStudent(row.UserName);
-          if (student && user.$id === student.userId) {
+          const student = await service.listStudents([Query.equal("studentUsername",[row.UserName])]);
+          if (student && user.$id === student.documents[0].userId) {
             continue;
           }
           await service.addStudent(row.Name, row.UserName, user.$id);
