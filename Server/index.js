@@ -9,22 +9,28 @@ async function startServer() {
   const app = express();
   const typeDefs = `
     type Student {
-    all: Int!
+      studentName: String!
+      studentUsername: String!
+      all: Int!
       easy: Int!
       medium: Int!
       hard: Int!
     }
     type Query {
-      getStudent(username: String!): Student!
+      getStudents(usernames: [String!]!): [Student!]!
     }
   `;
 
   const resolvers = {
     Query: {
-      getStudent: async (_, { username }) => {
+      getStudents: async (_, { usernames }) => {
         const query = `
           query getUserProfile($username: String!) {
             matchedUser(username: $username) {
+              username
+              profile {
+                realName
+              }
               submitStats {
                 acSubmissionNum {
                   difficulty
@@ -35,31 +41,43 @@ async function startServer() {
           }
         `;
 
-        const response = await axios.post(
-          "https://leetcode.com/graphql",
-          {
-            query,
-            variables: { username },
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
+        const requests = usernames.map((username) =>
+          axios.post(
+            "https://leetcode.com/graphql",
+            {
+              query,
+              variables: { username },
             },
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )
+        );
+
+        const responses = await Promise.all(requests);
+        return responses.map((response) => {
+          const userData = response.data.data.matchedUser;
+          if (!userData) {
+            return null; // or handle the error as appropriate
           }
-        );
+          const submissionData = userData.submitStats.acSubmissionNum;
 
-        const submissionData =
-          response.data.data.matchedUser.submitStats.acSubmissionNum;
+          const solvedCounts = submissionData.reduce(
+            (obj, { difficulty, count }) => {
+              obj[difficulty.toLowerCase()] = count;
+              return obj;
+            },
+            { all: 0, easy: 0, medium: 0, hard: 0 }
+          );
 
-        const solvedCounts = submissionData.reduce(
-          (obj, { difficulty, count }) => {
-            obj[difficulty.toLowerCase()] = count;
-            return obj;
-          },
-          {all:0 ,easy: 0, medium: 0, hard: 0 }
-        );
-
-        return solvedCounts;
+          return {
+            studentName: userData.profile.realName,
+            studentUsername: userData.username,
+            ...solvedCounts,
+          };
+        }).filter(student => student !== null); // filter out null responses
       },
     },
   };
