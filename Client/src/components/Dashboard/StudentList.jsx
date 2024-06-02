@@ -21,14 +21,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useEffect , useState} from "react";
+import { useEffect, useState } from "react";
 import service from "@/Appwrite/config";
 import { Query } from "appwrite";
 
 const StudentList = () => {
   const user = useSelector((state) => state.auth.userData);
   const dispatch = useDispatch();
-  const [sort,setSort] = useState("Name");
+  const [sort, setSort] = useState("Name");
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     handleFetch();
@@ -57,10 +58,23 @@ const StudentList = () => {
   if (error) return <div>Error: {error.message}</div>;
 
   const sortedData = () => {
-    if (sort === 'problems') {
+    if (sort === "problems") {
       return data.getStudents.slice().sort((a, b) => b.all - a.all);
     }
     return data.getStudents;
+  };
+
+  const filteredData = () => {
+    const filtered = sortedData().filter((student) => {
+      const studentName =
+        students.find((s) => s.studentUsername === student.studentUsername)
+          ?.studentName || student.studentName;
+      return (
+        studentName.toLowerCase().includes(search.toLowerCase()) ||
+        student.studentUsername.toLowerCase().includes(search.toLowerCase())
+      );
+    });
+    return filtered;
   };
 
   return (
@@ -71,8 +85,10 @@ const StudentList = () => {
           className="w-4/12 text-xs sm:text-base"
           type="text"
           placeholder="Search By Name or Username"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
-        <Select onValueChange={(value)=>setSort(value)} defaultValue="name">
+        <Select onValueChange={(value) => setSort(value)} defaultValue="name">
           <div>Sort By:</div>
           <SelectTrigger className="w-[120px]">
             <SelectValue placeholder="Name" />
@@ -105,7 +121,7 @@ const StudentList = () => {
             </TableHeader>
             <TableBody className="overflow-y-scroll">
               {data &&
-                sortedData().map((student) => {
+                filteredData().map((student) => {
                   const fallbackName = students.find(
                     (s) => s.studentUsername === student.studentUsername
                   )?.studentName;
