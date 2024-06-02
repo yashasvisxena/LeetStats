@@ -7,6 +7,7 @@ import axios from "axios";
 
 async function startServer() {
   const app = express();
+  const port= process.env PORT || 4000
   const typeDefs = `
     type Student {
       studentName: String!
@@ -91,7 +92,7 @@ async function startServer() {
 
   app.use("/graphql", expressMiddleware(server));
 
-  app.listen(4000, () => console.log("Server started on port 4000"));
+  app.listen(port, () => console.log(`Server started on port ${port}`));
 }
 
 startServer();
