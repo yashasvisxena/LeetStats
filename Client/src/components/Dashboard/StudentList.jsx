@@ -13,13 +13,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useEffect } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useEffect , useState} from "react";
 import service from "@/Appwrite/config";
 import { Query } from "appwrite";
 
 const StudentList = () => {
   const user = useSelector((state) => state.auth.userData);
   const dispatch = useDispatch();
+  const [sort,setSort] = useState("name");
 
   useEffect(() => {
     handleFetch();
@@ -47,6 +56,13 @@ const StudentList = () => {
 
   if (error) return <div>Error: {error.message}</div>;
 
+  const sortedData = () => {
+    if (sort === 'problems') {
+      return data.getStudents.slice().sort((a, b) => b.all - a.all);
+    }
+    return data.getStudents;
+  };
+
   return (
     <>
       <div className="flex w-full items-center space-x-2">
@@ -59,6 +75,17 @@ const StudentList = () => {
         <Button variant="ghost" onClick={() => handleFetch()}>
           <RefreshCcw className="w-4 h-4 sm:h-6 sm:w-6" />
         </Button>
+        <Select onValueChange={(value)=>setSort(value)}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Sort By" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="name">Name</SelectItem>
+              <SelectItem value="problems">Problems</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
       {loading ? (
         <div className="text-center text-6xl">...Loading</div>
@@ -77,7 +104,7 @@ const StudentList = () => {
             </TableHeader>
             <TableBody>
               {data &&
-                data.getStudents.map((student) => {
+                sortedData().map((student) => {
                   const fallbackName = students.find(
                     (s) => s.studentUsername === student.studentUsername
                   )?.studentName;
