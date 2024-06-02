@@ -11,14 +11,14 @@ import service from "@/Appwrite/config";
 import Loader from "../Loader/Loader";
 
 const FileSubmit = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const user = useSelector((state) => state.auth.userData);
   const [error, setError] = useState("");
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   async function FileRead(data) {
     setError("");
-    setLoading(true)
+    setLoading(true);
     const file = data.excelFile[0];
     const reader = new FileReader();
     reader.onload = async (e) => {
@@ -27,25 +27,23 @@ const FileSubmit = () => {
       const sheetName = workbook.SheetNames[0];
       const sheetData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
       try {
-
         for (const row of sheetData) {
           const student = await service.getStudent(row.UserName);
-          if (student && user.$id == student.userId) {
+          if (student && user.$id === student.userId) {
             continue;
           }
           await service.addStudent(row.Name, row.UserName, user.$id);
         }
       } catch (err) {
         setError(err.message);
-      }
-      finally{
-        setLoading(false)
+      } finally {
+        setLoading(false);
       }
     };
     reader.readAsBinaryString(file);
   }
 
-  if(loading) return <Loader/>
+  if (loading) return <Loader />;
 
   return (
     <form onSubmit={handleSubmit(FileRead)}>
@@ -60,15 +58,20 @@ const FileSubmit = () => {
           className=""
           type="file"
           {...register("excelFile", {
-            required: true,
+            required: "File is required",
             validate: {
               excelFormat: (value) =>
-                value[0].name.endsWith(".xls") ||
-                value[0].name.endsWith(".xlsx") ||
-                "Please select a .xlsx/.xls file",
+                value[0]?.name.endsWith(".xls") ||
+                value[0]?.name.endsWith(".xlsx") ||
+                "Please select a .xlsx or .xls file",
             },
           })}
         />
+        {errors.excelFile && (
+          <p className="text-red-500 text-sm sm:text-base text-center">
+            {errors.excelFile.message}
+          </p>
+        )}
         <Button type="submit">Upload</Button>
       </div>
     </form>
