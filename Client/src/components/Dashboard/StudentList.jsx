@@ -114,7 +114,7 @@ const StudentList = () => {
           onChange={(e) => setSearch(e.target.value)}
         />
         <Select onValueChange={(value) => setSort(value)} defaultValue="name">
-          <div>Sort By:</div>
+          <div className="text-xs sm:text-base text-center">Sort By:</div>
           <SelectTrigger className="w-[120px]">
             <SelectValue placeholder="Name" />
           </SelectTrigger>
@@ -132,8 +132,8 @@ const StudentList = () => {
       {loading ? (
         <div className="text-center text-6xl">...Loading</div>
       ) : (
-        <div className="flex flex-col border rounded-lg">
-          <Table>
+        <div className="flex flex-col h-[65vh]">
+          <Table className="border rounded-full">
             <TableHeader>
               <TableRow className="text-xs sm:text-base">
                 <TableHead className="text-center">Student Name</TableHead>
@@ -144,7 +144,7 @@ const StudentList = () => {
                 <TableHead className="text-center">Hard</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody className="overflow-y-scroll">
+            <TableBody>
               {data &&
                 filteredData().map((student) => {
                   const fallbackName = students.find(
