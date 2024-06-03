@@ -24,6 +24,7 @@ import {
 import { useEffect, useState } from "react";
 import service from "@/Appwrite/config";
 import { Query } from "appwrite";
+import Menu from "./Menu";
 
 const StudentList = () => {
   const user = useSelector((state) => state.auth.userData);
@@ -128,6 +129,7 @@ const StudentList = () => {
         <Button variant="outline" onClick={() => handleFetch()}>
           <RefreshCcw className="w-4 h-4 sm:h-6 sm:w-6" />
         </Button>
+        <Menu/>
       </div>
       {loading ? (
         <div className="text-center text-6xl">...Loading</div>
