@@ -132,7 +132,7 @@ const StudentList = () => {
       {loading ? (
         <div className="text-center text-6xl">...Loading</div>
       ) : (
-        <div className="flex flex-col h-[65vh]">
+        <div className="flex flex-col h-[72vh]">
           <Table className="border rounded-full">
             <TableHeader>
               <TableRow className="text-xs sm:text-base">
