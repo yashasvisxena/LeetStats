@@ -57,11 +57,22 @@ const StudentList = () => {
 
   if (error) return <div>Error: {error.message}</div>;
 
+  const getStudentName = (studentUsername) => {
+    const student = students.find(
+      (s) => s.studentUsername.toLowerCase() === studentUsername.toLowerCase()
+    );
+    return student ? student.studentName : null;
+  };
+
   const sortedData = () => {
     if (sort === "problems") {
       return data.getStudents.slice().sort((a, b) => b.all - a.all);
     }
-    return data.getStudents;
+    return data.getStudents.slice().sort((a, b) => {
+      const nameA = a.studentName || getStudentName(a.studentUsername) || "";
+      const nameB = b.studentName || getStudentName(b.studentUsername) || "";
+      return nameA.localeCompare(nameB);
+    });
   };
 
   const filteredData = () => {
@@ -72,10 +83,21 @@ const StudentList = () => {
             s.studentUsername.toLowerCase() ===
             student.studentUsername.toLowerCase()
         )?.studentName || student.studentName;
-      return (
-        studentName.toLowerCase().includes(search.toLowerCase()) ||
-        student.studentUsername.toLowerCase().includes(search.toLowerCase())
-      );
+      if (
+        student.studentName == null ||
+        student.studentName == undefined ||
+        student.studentName == ""
+      )
+        return (
+          studentName.toLowerCase().includes(search.toLowerCase()) ||
+          student.studentUsername.toLowerCase().includes(search.toLowerCase())
+        );
+      else {
+        return (
+          student.studentName.toLowerCase().includes(search.toLowerCase()) ||
+          student.studentUsername.toLowerCase().includes(search.toLowerCase())
+        );
+      }
     });
     return filtered;
   };
@@ -131,7 +153,7 @@ const StudentList = () => {
                       student.studentUsername.toLowerCase()
                   )?.studentName;
                   const studentName =
-                    fallbackName || student.studentName || "N/A";
+                    student.studentName || fallbackName || "N/A";
                   return (
                     <TableRow
                       key={student.studentUsername}
