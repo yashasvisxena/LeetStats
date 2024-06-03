@@ -30,9 +30,9 @@ const Form = () => {
   const [error, setError] = useState("");
 
   const submitStudent = async (data) => {
-    const student = await service.listStudents([Query.equal("studentUsername",[data.userName])]);
+    const student = await service.listStudents([Query.equal("userId",[userData.$id]),Query.equal("studentUsername",[data.userName])]);
     try {
-      if (student && userData.$id === student.documents[0].userId) {setError("Student with userName already exists");return}
+      if (student.documents.length!=0) {setError("Student with userName already exists");return}
       await service.addStudent(data.studentName, data.userName, userData.$id);
       setError("")
       window.location.reload();
