@@ -67,8 +67,11 @@ const StudentList = () => {
   const filteredData = () => {
     const filtered = sortedData().filter((student) => {
       const studentName =
-        students.find((s) => s.studentUsername === student.studentUsername)
-          ?.studentName || student.studentName;
+        students.find(
+          (s) =>
+            s.studentUsername.toLowerCase() ===
+            student.studentUsername.toLowerCase()
+        )?.studentName || student.studentName;
       return (
         studentName.toLowerCase().includes(search.toLowerCase()) ||
         student.studentUsername.toLowerCase().includes(search.toLowerCase())
@@ -123,10 +126,12 @@ const StudentList = () => {
               {data &&
                 filteredData().map((student) => {
                   const fallbackName = students.find(
-                    (s) => s.studentUsername.toLowerCase() === student.studentUsername.toLowerCase()
+                    (s) =>
+                      s.studentUsername.toLowerCase() ===
+                      student.studentUsername.toLowerCase()
                   )?.studentName;
                   const studentName =
-                    student.studentName || fallbackName || "N/A";
+                    fallbackName || student.studentName || "N/A";
                   return (
                     <TableRow
                       key={student.studentUsername}

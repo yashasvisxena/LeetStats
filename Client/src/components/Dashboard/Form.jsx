@@ -25,16 +25,19 @@ const Form = () => {
       userName: "",
     },
   });
+  const [loading, setLoading] = useState(false);
 
   const userData = useSelector((state) => state.auth.userData);
   const [error, setError] = useState("");
 
   const submitStudent = async (data) => {
-    const student = await service.listStudents([Query.equal("userId",[userData.$id]),Query.equal("studentUsername",[data.userName])]);
     try {
+      setLoading(true);
+      const student = await service.listStudents([Query.equal("userId",[userData.$id]),Query.equal("studentUsername",[data.userName])]);
       if (student.documents.length!=0) {setError("Student with userName already exists");return}
       await service.addStudent(data.studentName, data.userName, userData.$id);
       setError("")
+      setLoading(false);
       window.location.reload();
     } catch (err) {
       setError(err.message);
@@ -43,10 +46,10 @@ const Form = () => {
 
   return (
     <Sheet>
-      <SheetTrigger asChild>
+      <SheetTrigger asChild >
         <Menu className="w-4 h-4 sm:h-6 sm:w-6" />
       </SheetTrigger>
-      <SheetContent side="left">
+      <SheetContent side="left" >
         <Card className="my-6 w-full">
           <CardHeader>
             <CardTitle className="text-base sm:text-2xl">
