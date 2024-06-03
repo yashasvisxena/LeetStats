@@ -123,7 +123,7 @@ const StudentList = () => {
               {data &&
                 filteredData().map((student) => {
                   const fallbackName = students.find(
-                    (s) => s.studentUsername === student.studentUsername
+                    (s) => s.studentUsername.toLowerCase() === student.studentUsername.toLowerCase()
                   )?.studentName;
                   const studentName =
                     student.studentName || fallbackName || "N/A";
