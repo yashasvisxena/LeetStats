@@ -106,7 +106,7 @@ const StudentList = () => {
   return (
     <>
       <div className="flex w-full items-center space-x-2">
-        <Search className="w-4 h-4 sm:h-6 sm:w-6" />
+        <Search className="w-4 h-4 sm:h-6 sm:w-6 sm:inline-block hidden" />
         <Input
           className="text-xs sm:text-base sm:p-4 p-2 sm:w-[250px] w-[100px]"
           type="text"
