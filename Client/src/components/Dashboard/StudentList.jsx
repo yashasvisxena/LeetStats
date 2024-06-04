@@ -108,7 +108,7 @@ const StudentList = () => {
       <div className="flex w-full items-center space-x-2">
         <Search className="w-4 h-4 sm:h-6 sm:w-6" />
         <Input
-          className="w-4/12 text-xs sm:text-base"
+          className="text-xs sm:text-base sm:p-4 p-2 sm:w-[250px] w-[200px]"
           type="text"
           placeholder="Search By Name or Username"
           value={search}
@@ -116,7 +116,7 @@ const StudentList = () => {
         />
         <Select onValueChange={(value) => setSort(value)} defaultValue="name">
           <div className="text-xs sm:text-base text-center">Sort By:</div>
-          <SelectTrigger className="w-[120px]">
+          <SelectTrigger className="text-xs sm:text-base sm:p-4 p-2 sm:w-[120px] w-[90px]">
             <SelectValue placeholder="Name" />
           </SelectTrigger>
           <SelectContent>

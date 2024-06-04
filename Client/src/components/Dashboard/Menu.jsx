@@ -10,7 +10,7 @@ const Menu = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">More Actions</Button>
+        <Button variant="outline" className="text-xs sm:text-base sm:p-4 p-2 sm:w-[120px] w-[90px]" >More Actions</Button>
       </DropdownMenuTrigger>{" "}
       <DropdownMenuContent>
         <DropdownMenuItem>Delete Students</DropdownMenuItem>
