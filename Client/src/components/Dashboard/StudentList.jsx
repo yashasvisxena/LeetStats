@@ -104,32 +104,37 @@ const StudentList = () => {
 
   return (
     <>
-      <div className="flex w-full items-center sm:space-x-3 sm:space-y-0 space-y-2 justify-between sm:justify-start q  flex-wrap">
-        <Search className="w-4 h-4 sm:h-6 sm:w-6 sm:inline-block hidden" />
-        <Input
-          className="text-xs sm:text-base sm:p-4 p-2 sm:w-[250px] w-[100px]"
-          type="text"
-          placeholder="Search By Name or Username"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-          <div className="flex items-center space-x-2">
+      <div className="flex w-full items-center sm:space-x-3 sm:space-y-0 space-y-2 sm:justify-start justify-between sm:flex-nowrap flex-wrap">
+        <div className="flex items-center w-full sm:w-[275px] space-x-2">
+          <Search className="w-4 h-4 sm:h-6 sm:w-6" />
+          <Input
+            className="text-xs sm:text-base sm:p-4 p-2 sm:w-[250px] w-full"
+            type="text"
+            placeholder="Search By Name or Username"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+        <div className="flex items-center space-x-2">
           <div className="text-xs sm:text-base text-center">Sort By:</div>
-        <Select onValueChange={(value) => setSort(value)} defaultValue="problems">
-          <SelectTrigger className="text-xs sm:text-base sm:p-4 p-2 sm:w-[120px] w-[90px]">
-            <SelectValue placeholder="Problems" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="problems">Problems</SelectItem>
-              <SelectItem value="name">Name</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-          </div>
+          <Select
+            onValueChange={(value) => setSort(value)}
+            defaultValue="problems"
+          >
+            <SelectTrigger className="text-xs sm:text-base sm:p-4 p-2 sm:w-[120px] w-[90px]">
+              <SelectValue placeholder="Problems" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="problems">Problems</SelectItem>
+                <SelectItem value="name">Name</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
         <Button
           variant="outline"
-          onClick={async() => {
+          onClick={async () => {
             await handleFetch();
             refetch();
           }}
