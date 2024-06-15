@@ -46,7 +46,6 @@ const StudentList = () => {
     );
     await dispatch(setStudents(students.documents));
     await dispatch(setUsernames(usernames));
-    refetch();
   }
 
   const students = useSelector((state) => state.student.students);
@@ -105,7 +104,7 @@ const StudentList = () => {
 
   return (
     <>
-      <div className="flex w-full items-center space-x-2">
+      <div className="flex w-full items-center space-x-2 flex-wrap">
         <Search className="w-4 h-4 sm:h-6 sm:w-6 sm:inline-block hidden" />
         <Input
           className="text-xs sm:text-base sm:p-4 p-2 sm:w-[250px] w-[100px]"
@@ -126,10 +125,16 @@ const StudentList = () => {
             </SelectGroup>
           </SelectContent>
         </Select>
-        <Button variant="outline" onClick={() => handleFetch()}>
+        <Button
+          variant="outline"
+          onClick={async() => {
+            await handleFetch();
+            refetch();
+          }}
+        >
           <RefreshCcw className="w-4 h-4 sm:h-6 sm:w-6" />
         </Button>
-        <Menu/>
+        <Menu />
       </div>
       {loading ? (
         <div className="text-center text-6xl">...Loading</div>
