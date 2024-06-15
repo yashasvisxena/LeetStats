@@ -29,7 +29,7 @@ import Menu from "./Menu";
 const StudentList = () => {
   const user = useSelector((state) => state.auth.userData);
   const dispatch = useDispatch();
-  const [sort, setSort] = useState("Name");
+  const [sort, setSort] = useState("problems");
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -104,7 +104,7 @@ const StudentList = () => {
 
   return (
     <>
-      <div className="flex w-full items-center sm:space-x-2 sm:space-y-0 space-y-2 justify-between sm:justify-start  flex-wrap">
+      <div className="flex w-full items-center sm:space-x-3 sm:space-y-0 space-y-2 justify-between sm:justify-start q  flex-wrap">
         <Search className="w-4 h-4 sm:h-6 sm:w-6 sm:inline-block hidden" />
         <Input
           className="text-xs sm:text-base sm:p-4 p-2 sm:w-[250px] w-[100px]"
@@ -113,18 +113,20 @@ const StudentList = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <Select onValueChange={(value) => setSort(value)} defaultValue="name">
+          <div className="flex items-center space-x-2">
           <div className="text-xs sm:text-base text-center">Sort By:</div>
+        <Select onValueChange={(value) => setSort(value)} defaultValue="problems">
           <SelectTrigger className="text-xs sm:text-base sm:p-4 p-2 sm:w-[120px] w-[90px]">
-            <SelectValue placeholder="Name" />
+            <SelectValue placeholder="Problems" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value="name">Name</SelectItem>
               <SelectItem value="problems">Problems</SelectItem>
+              <SelectItem value="name">Name</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
+          </div>
         <Button
           variant="outline"
           onClick={async() => {
