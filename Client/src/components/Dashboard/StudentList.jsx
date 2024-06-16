@@ -51,8 +51,9 @@ const StudentList = () => {
   const students = useSelector((state) => state.student.students);
   const usernames = useSelector((state) => state.student.usernames);
 
-  const { data, loading, error, refetch } = useQuery(GET_STUDENTS, {
+  const { data, loading, error, refetch ,networkStatus} = useQuery(GET_STUDENTS, {
     variables: { usernames },
+    notifyOnNetworkStatusChange: true,
   });
 
   if (error) return <div>Error: {error.message}</div>;
@@ -143,7 +144,7 @@ const StudentList = () => {
         </Button>
         <Menu />
       </div>
-      {loading ? (
+      {loading || networkStatus===4 ? (
         <div className="text-center text-6xl">...Loading</div>
       ) : (
         <div className="flex border rounded-md flex-col h-full">
