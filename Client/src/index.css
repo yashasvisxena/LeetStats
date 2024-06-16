@@ -189,3 +189,7 @@
 input::file-selector-button {
   color:var(--primary-foreground);
 }
+
+*{
+   overflow:hidden ;
+}

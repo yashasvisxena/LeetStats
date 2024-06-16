@@ -147,7 +147,7 @@ const StudentList = () => {
       {loading || networkStatus===4 ? (
         <div className="text-center text-6xl">...Loading</div>
       ) : (
-        <div className="flex border rounded-md flex-col h-full">
+        <div className="flex border rounded-md flex-col sm:h-[72vh] h-[66vh]">
           <Table>
             <TableHeader>
               <TableRow className="text-xs sm:text-base">
