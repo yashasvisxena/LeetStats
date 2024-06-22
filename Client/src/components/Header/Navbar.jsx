@@ -1,7 +1,8 @@
 import { ThemeProvider } from "@/Contexts/Theme";
 import { useState, useEffect } from "react";
 import DarkLight from "./DarkLight";
-import logo from "../../assets/logo.png";
+import dark from "../../assets/dark.png";
+import light from "../../assets/light.png";
 import Form from "../Dashboard/Form";
 import LogoutBtn from "./LogoutBtn";
 import LoginBtn from "./LoginBtn";
@@ -39,8 +40,8 @@ const Navbar = () => {
       <div className="w-full flex sm:justify-between justify-between items-center px-4 py-4 left-0 right-0 top-0">
         <div className="flex sm:space-x-4 items-center">
         {authStatus && pathname == "/dashboard" && <Form />}
-        <Link to="/" className="flex items-center">
-          <img src={logo} alt="logo" className="w-10 h-10 sm:w-12 sm:h-12" />
+        <Link to="/" className="flex">
+          <img src={themeMode === "dark" ? dark : light} alt="logo" className="w-10 h-10 sm:w-12 sm:h-12" />
           <h2 className="text-center scroll-m-20 border-b text-2xl sm:text-4xl font-semibold tracking-tight">
             LeetStats
           </h2>
