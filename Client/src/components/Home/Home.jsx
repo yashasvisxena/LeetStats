@@ -3,6 +3,8 @@ import React from 'react';
 
 const Home = () => {
   return (
+    <div className="text-6xl text-center mx-auto h- full w-full">
+      Home
     <div className="flex flex-col h-full w-full">
       {/* Header */}
       <header className="bg-gray-800 text-white p-4 flex justify-between items-center">
@@ -53,6 +55,7 @@ const Home = () => {
       <footer className="bg-gray-800 text-white p-4 text-center">
         &copy; 2024 LeetStats. All rights reserved.
       </footer>
+    </div>
     </div>
   );
 }
