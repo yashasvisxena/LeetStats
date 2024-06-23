@@ -7,12 +7,7 @@ import UsedTechStack from './UsedTechStack';
 
 const Home = () => {
   return (
-
-    <div className="relative min-h-screen w-full bg-home-bg bg-cover bg-center">
-    {/* Overlay */}
-    
-
-    <div className="flex flex-col h-full mx-auto w-full bg-center">     
+    <div className="flex flex-col h-full mx-auto w-full">
       {/* Header */}
       <header className="bg-gray-800 text-white p-4 flex justify-between items-center">
         <h1 className="text-3xl font-bold">LeetStas</h1>
@@ -30,12 +25,12 @@ const Home = () => {
         </section>
         
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div className="bg-background p-6 rounded-lg shadow-lg">
-            <img src="https://images.pexels.com/photos/5474028/pexels-photo-5474028.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Feature 1" className="w-full h-40 object-cover rounded-lg mb-4 bg-cover"/>
-            <h3 className="text-2xl text-ground font-bold mb-2">Track Your Stats</h3>
+          <div className="bg-foreground p-6 rounded-lg shadow-lg">
+            <img src="/path/to/feature1.jpg" alt="Feature 1" className="w-full h-40 object-cover rounded-lg mb-4"/>
+            <h3 className="text-2xl text-background font-bold mb-2">Track Your Stats</h3>
             <p className="text-0.5xl text-background">See your progress over time with detailed statistics.</p>
           </div>
-          <div className="bg-secondary-background p-6 rounded-lg shadow-lg">
+          <div className="bg-secondary-foreground p-6 rounded-lg shadow-lg">
             <img src="/path/to/feature2.jpg" alt="Feature 2" className="w-full h-40 object-cover rounded-lg mb-4"/>
             <h3 className="text-2xl text-background font-bold mb-2">Analyze Patterns</h3>
             <p className="text-0.5xl text-background">Identify strengths and weaknesses in your coding skills.</p>
@@ -49,16 +44,13 @@ const Home = () => {
 
         <section className="bg-foreground bg-center p-8 my-8 rounded-lg shadow-lg" style={{ backgroundImage: "url('/path/to/benefit1.jpg')" }}>
           <h3 className="text-3xl text-background font-bold ">Enhance Problem-Solving Skills</h3>
-          <p className=" text-background">Coding enhances problem-solving skills by breaking down complex problems into manageable tasks. This fosters a systematic approach to debugging and optimizing code.</p>
+          <p className="text-white text-background">Coding enhances problem-solving skills by breaking down complex problems into manageable tasks. This fosters a systematic approach to debugging and optimizing code.</p>
         </section>
 
         <section className="bg-foreground bg-center p-8 my-8 rounded-lg shadow-lg" style={{ backgroundImage: "url('/path/to/benefit2.jpg')" }}>
           <h3 className="text-3xl text-background font-bold ">Boost Technical Proficiency</h3>
-          <p className=" text-background">Consistent coding practice improves technical proficiency by solidifying understanding of algorithms, data structures, and design patterns, essential for efficient and scalable software development.</p>
+          <p className="text-white text-background">Consistent coding practice improves technical proficiency by solidifying understanding of algorithms, data structures, and design patterns, essential for efficient and scalable software development.</p>
         </section>
-
-        <UpcomingEvent />
-        <UsedTechStack />
       </main>
 
       {/* Footer */}
