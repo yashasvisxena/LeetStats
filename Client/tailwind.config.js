@@ -22,11 +22,18 @@ module.exports = {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
+        transform: ['hover', 'focus'],
+        scale: ['hover', 'focus'],
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          
+            backgroundImage: {
+              'home-bg': "url('C:/Users/nik11/Desktop/LeetStats/Client/src/components/Home/stars.jpeg')",
+            },
+          
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
