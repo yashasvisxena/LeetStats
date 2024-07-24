@@ -23,6 +23,8 @@ import {
 import { useEffect, useState, useMemo, useCallback } from "react";
 import service from "@/Appwrite/config";
 import { Query } from "appwrite";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 const StudentList = () => {
   const user = useSelector((state) => state.auth.userData);
@@ -118,6 +120,57 @@ const StudentList = () => {
       .catch((err) => console.error("Failed to delete student:", err));
   };
 
+  const handleDownloadPDF = () => {
+    const doc = new jsPDF();
+
+    doc.setFontSize(16); // Increase the font size for the title
+    const userName = user.name;
+    const pageWidth = doc.internal.pageSize.width;
+    const textWidth = doc.getTextWidth(userName);
+    doc.text(userName, (pageWidth - textWidth) / 2, 10); // Center the title
+
+    // Define table columns
+    const tableColumn = [
+      { header: "Student Name", dataKey: "studentName" },
+      { header: "Student Username", dataKey: "studentUsername" },
+      { header: "Problems", dataKey: "all" },
+      { header: "Easy", dataKey: "easy" },
+      { header: "Medium", dataKey: "medium" },
+      { header: "Hard", dataKey: "hard" },
+    ];
+
+    // Prepare table rows
+    const tableRows = filteredData.map((student) => ({
+      studentName: student.studentName,
+      studentUsername: student.studentUsername,
+      all: student.all,
+      easy: student.easy,
+      medium: student.medium,
+      hard: student.hard,
+    }));
+
+    // Generate the table in the PDF
+    doc.autoTable({
+      head: [tableColumn.map((col) => col.header)],
+      body: tableRows.map((row) => tableColumn.map((col) => row[col.dataKey])),
+      startY: 20,
+      headStyles: {
+        halign: "center",
+        valign: "middle",
+        fontSize: 14,
+        fillColor: [255, 255, 255],
+        textColor: [0, 0, 0],
+      },
+      bodyStyles: {
+        halign: "center",
+        valign: "middle",
+        fontSize: 12,
+      },
+    });
+
+    doc.save(`${user.name}-student-list.pdf`);
+  };
+
   return (
     <>
       <div className="flex w-full items-center sm:space-x-3 sm:space-y-0 space-y-2 justify-around sm:justify-start sm:flex-nowrap flex-wrap">
@@ -148,7 +201,11 @@ const StudentList = () => {
         <Button variant="outline" onClick={() => refetch()}>
           <RefreshCcw className="w-4 h-4 sm:h-6 sm:w-6" />
         </Button>
-        <Button variant="outline" className="text-xs sm:text-base sm:p-4 p-2">
+        <Button
+          variant="outline"
+          className="text-xs sm:text-base sm:p-4 p-2"
+          onClick={handleDownloadPDF}
+        >
           <Download className="w-4 mr-2 h-4 sm:h-6 sm:w-6" />
           Download
         </Button>
