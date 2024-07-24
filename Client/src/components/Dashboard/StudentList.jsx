@@ -1,6 +1,6 @@
-import { useQuery} from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { useSelector } from "react-redux";
-import { RefreshCcw, Search, Trash, Edit } from "lucide-react";
+import { RefreshCcw, Search, Trash, Download } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "@/components/ui/input";
 import { query as GET_STUDENTS } from "@/Apollo/queries";
@@ -29,8 +29,6 @@ const StudentList = () => {
   const [sort, setSort] = useState("problems");
   const [search, setSearch] = useState("");
   const [students, setStudents] = useState([]);
-  const [editingStudent, setEditingStudent] = useState(null);
-  const [editedName, setEditedName] = useState("");
 
   const { data, loading, error, refetch, networkStatus } = useQuery(
     GET_STUDENTS,
@@ -111,30 +109,18 @@ const StudentList = () => {
     setSort(value);
   }, []);
 
-  const handleEditClick = (student) => {
-    setEditingStudent(student);
-    setEditedName(student.studentName || "");
-  };
-
-  const handleEditChange = (e) => {
-    setEditedName(e.target.value);
-  };
-
-  const handleEditSubmit = () => {
-    
-  };
-
   const handleDeleteClick = (documentId) => {
-    service.deleteStudent(documentId)
+    service
+      .deleteStudent(documentId)
       .then(() => {
-        setStudents(students.filter(s => s.$id !== documentId));
+        setStudents(students.filter((s) => s.$id !== documentId));
       })
-      .catch(err => console.error("Failed to delete student:", err));
+      .catch((err) => console.error("Failed to delete student:", err));
   };
 
   return (
     <>
-      <div className="flex w-full items-center sm:space-x-3 sm:space-y-0 space-y-2 sm:justify-start justify-between sm:flex-nowrap flex-wrap">
+      <div className="flex w-full items-center sm:space-x-3 sm:space-y-0 space-y-2 justify-around sm:justify-start sm:flex-nowrap flex-wrap">
         <div className="flex items-center w-full sm:w-[275px] space-x-2">
           <Search className="w-4 h-4 sm:h-6 sm:w-6" />
           <Input
@@ -161,6 +147,10 @@ const StudentList = () => {
         </div>
         <Button variant="outline" onClick={() => refetch()}>
           <RefreshCcw className="w-4 h-4 sm:h-6 sm:w-6" />
+        </Button>
+        <Button variant="outline" className="text-xs sm:text-base sm:p-4 p-2">
+          <Download className="w-4 mr-2 h-4 sm:h-6 sm:w-6" />
+          Download
         </Button>
       </div>
       {loading || networkStatus === 4 ? (
@@ -189,18 +179,7 @@ const StudentList = () => {
                   key={student.studentUsername}
                   className="text-center text-xs sm:text-base"
                 >
-                  <TableCell>
-                    {editingStudent?.studentUsername === student.studentUsername ? (
-                      <Input
-                        value={editedName}
-                        onChange={handleEditChange}
-                        onBlur={handleEditSubmit}
-                        className="text-xs sm:text-base sm:p-2 p-1"
-                      />
-                    ) : (
-                      student.studentName
-                    )}
-                  </TableCell>
+                  <TableCell>{student.studentName}</TableCell>
                   <TableCell className="underline-offset-2 underline">
                     <a
                       href={`https://www.leetcode.com/u/${student.studentUsername}`}
@@ -219,32 +198,14 @@ const StudentList = () => {
                   </TableCell>
                   <TableCell className="text-red-500">{student.hard}</TableCell>
                   <TableCell>
-                    {editingStudent?.studentUsername === student.studentUsername ? (
+                    <div className="flex space-x-1 justify-center">
                       <Button
                         variant="outline"
-                        onClick={() => {
-                          setEditingStudent(null);
-                          setEditedName("");
-                        }}
+                        onClick={() => handleDeleteClick(student.$id)}
                       >
-                        Cancel
+                        <Trash className="w-4 h-4 sm:h-6 sm:w-6" />
                       </Button>
-                    ) : (
-                      <>
-                        <Button
-                          variant="outline"
-                          onClick={() => handleEditClick(student)}
-                        >
-                          <Edit className="w-4 h-4" />
-                        </Button>
-                        <Button
-                          variant="outline"
-                          onClick={() => handleDeleteClick(student.$id)}
-                        >
-                          <Trash className="w-4 h-4" />
-                        </Button>
-                      </>
-                    )}
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
