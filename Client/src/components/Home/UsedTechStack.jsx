@@ -1,27 +1,36 @@
-// src/components/UsedTechStack.js
-import React from 'react';
+import reactimg from './reactd.svg';
+import reduximg from './redux.png';
+import appwriteimg from './appwrite.png';
+import graphqlimg from './graphQl.jpg';
+import apolloimg from './apollo.png';
+import expressimg from './expressjs.png';
+import tailwindimg from './tailwind.png';
+import shadcnimg from './shadcn.png';
+
 
 const techStack = [
-  { name: 'React', logo: 'src/components/Home/reactd.png' },
-  { name: 'Redux', logo: 'src/components/Home/redux.png' },
-  { name: 'Appwrite', logo: 'src/components/Home/appwrite.png' },
-  { name: 'GraphQL', logo: 'src/components/Home/graphQl.jpg' },
-  { name: 'Apollo', logo: 'src/components/Home/apollo.png' },
-  { name: 'Express', logo: 'src/components/Home/expressjs.png' },
-  { name: 'Tailwind CSS', logo: 'src/components/Home/tailwind.png' },
-  { name: 'Shadcn', logo: 'src/components/Home/139895814.png' },
-];
+  { name: 'React', logo: reactimg },
+  { name: 'Redux', logo: reduximg },
+  { name: 'Appwrite', logo: appwriteimg },
+  { name: 'GraphQL', logo: graphqlimg },
+  { name: 'Apollo', logo: apolloimg },
+  { name: 'Express', logo: expressimg },
+  { name: 'Tailwind', logo: tailwindimg },
+  { name: 'Shadcn', logo: shadcnimg }
+]
 
 const UsedTechStack = () => {
   return (
-    <div className=" bg-background flex flex-wrap justify-center p-6 rounded-lg shadow-lg max-w-4xl mx-auto my-8">
+    <div className=" bg-background w-fit flex flex-wrap justify-center p-6 rounded-lg shadow-lg mx-auto my-8">
       <h2 className=" text-ground w-full text-3xl font-bold mb-4 text-center">Used Tech Stack</h2>
+      <div className={`grid grid-cols-2 sm:grid-cols-${techStack.length}`}>
       {techStack.map((tech, index) => (
         <div key={index} className=" flex flex-col items-center m-4 transform transition-transform duration-300 hover:scale-110">
-          <img src={tech.logo} alt={tech.name} className="h-16 w-16 mb-2" />
+          <img src={tech.logo} alt={tech.name} className="h-16 w-16 object-contain" />
           <span className="text-lg font-medium">{tech.name}</span>
         </div>
       ))}
+      </div>
     </div>
   );
 }
