@@ -1,5 +1,3 @@
-import { ThemeProvider } from "@/Contexts/Theme";
-import { useState, useEffect } from "react";
 import DarkLight from "./DarkLight";
 import dark from "../../assets/dark.png";
 import light from "../../assets/light.png";
@@ -9,34 +7,18 @@ import LoginBtn from "./LoginBtn";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "../ui/button";
+import useTheme from "@/Contexts/Theme";
 
 const Navbar = () => {
   const location = useLocation();
   const { pathname } = location;
   // console.log(pathname)
 
-  const [themeMode, setThemeMode] = useState(() => {
-    return localStorage.getItem("themeMode") || "dark";
-  });
-
-  const lightTheme = () => {
-    setThemeMode("light");
-  };
-
-  const darkTheme = () => {
-    setThemeMode("dark");
-  };
-
-  useEffect(() => {
-    document.querySelector("html").classList.remove("light", "dark");
-    document.querySelector("html").classList.add(themeMode);
-    localStorage.setItem("themeMode", themeMode); // Store user's theme choice in local storage
-  }, [themeMode]);
-
+  const {themeMode,} = useTheme();
+  
   const authStatus = useSelector((state) => state.auth.status);
 
   return (
-    <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
       <div className="w-full flex sm:justify-between justify-between items-center px-4 py-4 left-0 right-0 top-0">
         <div className="flex sm:space-x-4 items-center">
         {authStatus && pathname == "/dashboard" && <Form />}
@@ -63,7 +45,7 @@ const Navbar = () => {
           {authStatus && <LogoutBtn />}
         </div>
       </div>
-    </ThemeProvider>
+   
   );
 };
 
