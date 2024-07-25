@@ -1,4 +1,3 @@
-import React from "react";
 import UpcomingEvent from "./UpcomingEvent";
 import UsedTechStack from "./UsedTechStack";
 import FunnyCodeComponent from "./FunnyCodeComponent";

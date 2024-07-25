@@ -29,12 +29,12 @@ export class Service {
     }
   }
 
-  async deleteStudent(studentUsername ) {
+  async deleteStudent(documentId) {
     try {
       await this.databases.deleteDocument(
         conf.databaseId,
         conf.studentId,
-        studentUsername 
+        documentId
       );
       return true;
     } catch (error) {

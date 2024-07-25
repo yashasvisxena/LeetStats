@@ -1,7 +1,6 @@
 import { useQuery } from "@apollo/client";
-import { useDispatch, useSelector } from "react-redux";
-import { setStudents, setUsernames } from "@/Store/studentSlice";
-import { RefreshCcw, Search } from "lucide-react";
+import { useSelector } from "react-redux";
+import { RefreshCcw, Search, Trash, Download } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "@/components/ui/input";
 import { query as GET_STUDENTS } from "@/Apollo/queries";
@@ -21,91 +20,160 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import service from "@/Appwrite/config";
 import { Query } from "appwrite";
-import Menu from "./Menu";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 const StudentList = () => {
   const user = useSelector((state) => state.auth.userData);
-  const dispatch = useDispatch();
   const [sort, setSort] = useState("problems");
   const [search, setSearch] = useState("");
+  const [students, setStudents] = useState([]);
+
+  const { data, loading, error, refetch, networkStatus } = useQuery(
+    GET_STUDENTS,
+    {
+      variables: {
+        usernames: students.map((student) => student.studentUsername),
+      },
+      notifyOnNetworkStatusChange: true,
+      skip: !students.length,
+    }
+  );
 
   useEffect(() => {
-    handleFetch();
-  }, []);
+    const fetchStudents = async () => {
+      try {
+        const { documents } = await service.listStudents([
+          Query.equal("userId", [user.$id]),
+          Query.orderAsc("studentName"),
+        ]);
+        setStudents(documents || []);
+      } catch (err) {
+        console.error("Failed to fetch students:", err);
+      }
+    };
 
-  async function handleFetch() {
-    const students = await service.listStudents([
-      Query.equal("userId", [user.$id]),
-      Query.orderAsc("studentName"),
-    ]);
-    const usernames = students.documents.map(
-      (student) => student.studentUsername
-    );
-    await dispatch(setStudents(students.documents));
-    await dispatch(setUsernames(usernames));
-  }
+    fetchStudents();
+  }, [user.$id]);
 
-  const students = useSelector((state) => state.student.students);
-  const usernames = useSelector((state) => state.student.usernames);
-
-  const { data, loading, error, refetch ,networkStatus} = useQuery(GET_STUDENTS, {
-    variables: { usernames },
-    notifyOnNetworkStatusChange: true,
-  });
-
-  if (error) return <div>Error: {error.message}</div>;
-
-  const getStudentName = (studentUsername) => {
-    const student = students.find(
-      (s) => s.studentUsername.toLowerCase() === studentUsername.toLowerCase()
-    );
-    return student ? student.studentName : null;
-  };
-
-  const sortedData = () => {
-    if (sort === "problems") {
-      return data.getStudents.slice().sort((a, b) => b.all - a.all);
-    }
-    return data.getStudents.slice().sort((a, b) => {
-      const nameA = a.studentName || getStudentName(a.studentUsername) || "";
-      const nameB = b.studentName || getStudentName(b.studentUsername) || "";
-      return nameA.localeCompare(nameB);
-    });
-  };
-
-  const filteredData = () => {
-    const filtered = sortedData().filter((student) => {
-      const studentName =
-        students.find(
+  useEffect(() => {
+    if (data) {
+      const apiData = data.getStudents || [];
+      const merged = apiData.map((apiStudent) => {
+        const additionalInfo = students.find(
           (s) =>
             s.studentUsername.toLowerCase() ===
-            student.studentUsername.toLowerCase()
-        )?.studentName || student.studentName;
-      if (
-        student.studentName == null ||
-        student.studentName == undefined ||
-        student.studentName == ""
-      )
-        return (
-          studentName.toLowerCase().includes(search.toLowerCase()) ||
-          student.studentUsername.toLowerCase().includes(search.toLowerCase())
+            apiStudent.studentUsername.toLowerCase()
         );
-      else {
-        return (
-          student.studentName.toLowerCase().includes(search.toLowerCase()) ||
-          student.studentUsername.toLowerCase().includes(search.toLowerCase())
-        );
-      }
+        return {
+          ...apiStudent,
+          ...additionalInfo,
+          studentName:
+            apiStudent.studentName || additionalInfo?.studentName || "N/A",
+        };
+      });
+      setStudents(merged);
+    }
+  }, [data]);
+
+  const sortedData = useMemo(() => {
+    const sorted = [...students];
+    if (sort === "problems") {
+      return sorted.sort((a, b) => b.all - a.all);
+    } else if (sort === "name") {
+      return sorted.sort((a, b) =>
+        (a.studentName || "").localeCompare(b.studentName || "")
+      );
+    }
+    return sorted;
+  }, [students, sort]);
+
+  const filteredData = useMemo(() => {
+    const searchLower = search.toLowerCase();
+    return sortedData.filter((student) => {
+      const studentName = student.studentName || "";
+      return (
+        studentName.toLowerCase().includes(searchLower) ||
+        student.studentUsername.toLowerCase().includes(searchLower)
+      );
     });
-    return filtered;
+  }, [sortedData, search]);
+
+  // Handlers
+  const handleSearchChange = useCallback((e) => {
+    setSearch(e.target.value);
+  }, []);
+
+  const handleSortChange = useCallback((value) => {
+    setSort(value);
+  }, []);
+
+  const handleDeleteClick = (documentId) => {
+    service
+      .deleteStudent(documentId)
+      .then(() => {
+        setStudents(students.filter((s) => s.$id !== documentId));
+      })
+      .catch((err) => console.error("Failed to delete student:", err));
+  };
+
+  const handleDownloadPDF = () => {
+    const doc = new jsPDF();
+
+    doc.setFontSize(16); // Increase the font size for the title
+    const userName = user.name;
+    const pageWidth = doc.internal.pageSize.width;
+    const textWidth = doc.getTextWidth(userName);
+    doc.text(userName, (pageWidth - textWidth) / 2, 10); // Center the title
+
+    // Define table columns
+    const tableColumn = [
+      { header: "Student Name", dataKey: "studentName" },
+      { header: "Student Username", dataKey: "studentUsername" },
+      { header: "Problems", dataKey: "all" },
+      { header: "Easy", dataKey: "easy" },
+      { header: "Medium", dataKey: "medium" },
+      { header: "Hard", dataKey: "hard" },
+    ];
+
+    // Prepare table rows
+    const tableRows = filteredData.map((student) => ({
+      studentName: student.studentName,
+      studentUsername: student.studentUsername,
+      all: student.all,
+      easy: student.easy,
+      medium: student.medium,
+      hard: student.hard,
+    }));
+
+    // Generate the table in the PDF
+    doc.autoTable({
+      head: [tableColumn.map((col) => col.header)],
+      body: tableRows.map((row) => tableColumn.map((col) => row[col.dataKey])),
+      startY: 20,
+      headStyles: {
+        halign: "center",
+        valign: "middle",
+        fontSize: 14,
+        fillColor: [255, 255, 255],
+        textColor: [0, 0, 0],
+      },
+      bodyStyles: {
+        halign: "center",
+        valign: "middle",
+        fontSize: 12,
+      },
+    });
+
+    doc.save(`${user.name}-student-list.pdf`);
   };
 
   return (
     <>
-      <div className="flex w-full items-center sm:space-x-3 sm:space-y-0 space-y-2 sm:justify-start justify-between sm:flex-nowrap flex-wrap">
+      <div className="flex w-full items-center sm:space-x-3 sm:space-y-0 space-y-2 justify-around sm:justify-start sm:flex-nowrap flex-wrap">
         <div className="flex items-center w-full sm:w-[275px] space-x-2">
           <Search className="w-4 h-4 sm:h-6 sm:w-6" />
           <Input
@@ -113,15 +181,12 @@ const StudentList = () => {
             type="text"
             placeholder="Search By Name or Username"
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={handleSearchChange}
           />
         </div>
         <div className="flex items-center space-x-2">
           <div className="text-xs sm:text-base text-center">Sort By:</div>
-          <Select
-            onValueChange={(value) => setSort(value)}
-            defaultValue="problems"
-          >
+          <Select onValueChange={handleSortChange} defaultValue="problems">
             <SelectTrigger className="text-xs sm:text-base sm:p-4 p-2 sm:w-[120px] w-[90px]">
               <SelectValue placeholder="Problems" />
             </SelectTrigger>
@@ -133,19 +198,24 @@ const StudentList = () => {
             </SelectContent>
           </Select>
         </div>
-        <Button
-          variant="outline"
-          onClick={async () => {
-            await handleFetch();
-            refetch();
-          }}
-        >
+        <Button variant="outline" onClick={() => refetch()}>
           <RefreshCcw className="w-4 h-4 sm:h-6 sm:w-6" />
         </Button>
-        <Menu />
+        <Button
+          variant="outline"
+          className="text-xs sm:text-base sm:p-4 p-2"
+          onClick={handleDownloadPDF}
+        >
+          <Download className="w-4 mr-2 h-4 sm:h-6 sm:w-6" />
+          Download
+        </Button>
       </div>
-      {loading || networkStatus===4 ? (
+      {loading || networkStatus === 4 ? (
         <div className="text-center text-6xl">...Loading</div>
+      ) : error ? (
+        <div className="text-red-500 text-center text-3xl">
+          Error: {error.message}
+        </div>
       ) : (
         <div className="flex border rounded-md flex-col sm:h-[72vh] h-[66vh]">
           <Table>
@@ -157,46 +227,45 @@ const StudentList = () => {
                 <TableHead className="text-center">Easy</TableHead>
                 <TableHead className="text-center">Medium</TableHead>
                 <TableHead className="text-center">Hard</TableHead>
+                <TableHead className="text-center">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data &&
-                filteredData().map((student) => {
-                  const fallbackName = students.find(
-                    (s) =>
-                      s.studentUsername.toLowerCase() ===
-                      student.studentUsername.toLowerCase()
-                  )?.studentName;
-                  const studentName =
-                    student.studentName || fallbackName || "N/A";
-                  return (
-                    <TableRow
-                      key={student.studentUsername}
-                      className="text-center text-xs sm:text-base"
+              {filteredData.map((student) => (
+                <TableRow
+                  key={student.studentUsername}
+                  className="text-center text-xs sm:text-base"
+                >
+                  <TableCell>{student.studentName}</TableCell>
+                  <TableCell className="underline-offset-2 underline">
+                    <a
+                      href={`https://www.leetcode.com/u/${student.studentUsername}`}
+                      target="_blank"
+                      rel="noreferrer"
                     >
-                      <TableCell>{studentName}</TableCell>
-                      <TableCell className="underline-offset-2 underline">
-                        <a
-                          href={`https://www.leetcode.com/u/${student.studentUsername}`}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          {student.studentUsername}
-                        </a>
-                      </TableCell>
-                      <TableCell>{student.all}</TableCell>
-                      <TableCell className="text-green-500">
-                        {student.easy}
-                      </TableCell>
-                      <TableCell className="text-yellow-500">
-                        {student.medium}
-                      </TableCell>
-                      <TableCell className="text-red-500">
-                        {student.hard}
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+                      {student.studentUsername}
+                    </a>
+                  </TableCell>
+                  <TableCell>{student.all}</TableCell>
+                  <TableCell className="text-green-500">
+                    {student.easy}
+                  </TableCell>
+                  <TableCell className="text-yellow-500">
+                    {student.medium}
+                  </TableCell>
+                  <TableCell className="text-red-500">{student.hard}</TableCell>
+                  <TableCell>
+                    <div className="flex space-x-1 justify-center">
+                      <Button
+                        variant="outline"
+                        onClick={() => handleDeleteClick(student.$id)}
+                      >
+                        <Trash className="w-4 h-4 sm:h-6 sm:w-6" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </div>
