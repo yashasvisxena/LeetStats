@@ -1,73 +1,136 @@
-// src/components/Home.js
-
-import React from 'react';
-
-import UpcomingEvent from './UpcomingEvent';
-import UsedTechStack from './UsedTechStack';
+import React from "react";
+import UpcomingEvent from "./UpcomingEvent";
+import UsedTechStack from "./UsedTechStack";
+import FunnyCodeComponent from "./FunnyCodeComponent";
 
 const Home = () => {
   return (
-
+   
     <div className="relative min-h-screen w-full bg-home-bg bg-cover bg-center">
-    {/* Overlay */}
-    
-
-    <div className="flex flex-col h-full mx-auto w-full bg-center">     
-      {/* Header */}
-      <header className="bg-gray-800 text-white p-4 flex justify-between items-center">
-        <h1 className="text-3xl font-bold">LeetStas</h1>
-        <nav>
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2">Login</button>
-          <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-2">Sign Up</button>
-        </nav>
-      </header>
-
-      {/* Main Content */}
+    <div className="flex flex-col h-full mx-auto w-full bg-center">
       <main className="flex-grow p-4">
         <section className="my-8 text-center">
-          <h2 className="text-4xl font-bold mb-4">Track Your LeetCode Progress</h2>
-          <p className="text-lg">Stay on top of your coding practice and logic building with our intuitive tracker.</p>
+          <h2 className="text-4xl font-bold mb-4">
+            Track Your LeetCode Progress
+          </h2>
+          <p className="text-lg">
+            Stay on top of your coding practice and logic building with our
+            intuitive tracker.
+          </p>
+          <br />
+          <p className="text-lg">
+            "Every great accomplishment starts with a single line of code.
+            Embrace the challenge, push boundaries, and transform your ideas
+            into reality.<br /> Remember, the possibilities are limitless when you
+            code with passion and persistence."
+          </p>
         </section>
+  
+        <div className="my-8 mx-auto w-full max-w-6xl p-4 bg-background rounded-lg overflow-hidden shadow-lg">
+          <img
+            src="/src/components/Home/statsdark.png"
+            alt="Cover Image"
+            className="w-full h-full object-cover"
+          />
+        </div>
+  
+        <div className="flex justify-center bg-background items-center h-screen">
+          <div className="w-96 rounded-lg shadow-lg p-6 flex">
+           
+            <div className="flex-1">
+              <h2 className="text-2xl font-bold mb-4">Why do you think coding is boring?</h2>
+            </div>
+  
         
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div className="bg-background p-6 rounded-lg shadow-lg">
-            <img src="https://images.pexels.com/photos/5474028/pexels-photo-5474028.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Feature 1" className="w-full h-40 object-cover rounded-lg mb-4 bg-cover"/>
-            <h3 className="text-2xl text-ground font-bold mb-2">Track Your Stats</h3>
-            <p className="text-0.5xl text-background">See your progress over time with detailed statistics.</p>
+            <div className="flex-1">
+              <p className="text-ground">
+                Coding challenges your creativity and problem-solving skills, offering endless opportunities for innovation.
+              </p>
+              <p className="text-ground">
+                With coding, you can create solutions that impact millions of lives, from apps to systems that power businesses globally.
+              </p>
+            </div>
           </div>
-          <div className="bg-secondary-background p-6 rounded-lg shadow-lg">
-            <img src="/path/to/feature2.jpg" alt="Feature 2" className="w-full h-40 object-cover rounded-lg mb-4"/>
-            <h3 className="text-2xl text-background font-bold mb-2">Analyze Patterns</h3>
-            <p className="text-0.5xl text-background">Identify strengths and weaknesses in your coding skills.</p>
+        </div>
+  
+        <div className="min-h-screen flex flex-col items-center justify-center bg-background p-8 space-y-12">
+          <div className="w-full max-w-5xl flex flex-col space-y-12">
+            {/* First row with Login and Signup */}
+            <div className="w-full flex space-x-4">
+              {/* Login */}
+              <div className="relative flex-1 flex-col items-center bg-background rounded-lg shadow-lg overflow-hidden">
+                <h2 className="absolute top-4 left-4 text-3xl font-bold text-ground shadow-lg z-10">
+                  Login
+                </h2>
+                <img
+                  src="/src/components/Home/logindark.png"
+                  alt="Login"
+                  className="w-full h-80 object-cover"
+                />
+                <p className="p-4 text-ground text-center fancy-text">
+                  Access your account to track your progress and get personalized recommendations.
+                </p>
+              </div>
+  
+              {/* Signup */}
+              <div className="relative flex-1 flex-col items-center bg-background rounded-lg shadow-lg overflow-hidden">
+                <h2 className="absolute top-4 left-4 text-3xl font-bold text-ground shadow-lg z-10">
+                  Signup
+                </h2>
+                <img
+                  src="/src/components/Home/signupdark.png"
+                  alt="Signup"
+                  className="w-full h-80 object-cover"
+                />
+                <p className="p-4 text-lg text-center text-ground fancy-text">
+                  Create an account to start your journey with us and unlock all features.
+                </p>
+              </div>
+            </div>
+  
+            {/* Second row with Add Students */}
+            <div className="w-full flex justify-end space-x-4">
+              <div className="relative flex-1 flex-col items-center bg-background rounded-lg shadow-lg overflow-hidden">
+                <h2 className="absolute top-4 right-4 text-3xl font-bold text-ground shadow-lg z-10">
+                  Add Students to Track
+                </h2>
+                <img
+                  src="/src/components/Home/datadark.png"
+                  alt="Add Students"
+                  className="w-full h-80 object-cover"
+                />
+                <p className="p-4 text-lg text-center text-ground fancy-text">
+                  Easily add students to your account and keep track of their progress.
+                </p>
+              </div>
+            </div>
+  
+            {/* Full-width image section */}
+            <div className="w-full flex flex-col items-center bg-background rounded-lg shadow-lg overflow-hidden">
+              <h2 className="text-3xl font-bold text-ground mb-4">
+                Dashboard
+              </h2>
+              <img
+                src="/src/components/Home/statsdark.png"
+                alt="Dashboard"
+                className="w-full h-80 object-cover"
+                style={{ paddingTop: '1rem' }}
+              />
+              <p className="p-4 text-lg text-center text-ground fancy-text">
+                View all your stats and track your progress in the dashboard.
+              </p>
+            </div>
           </div>
-          <div className="bg-foreground p-6 rounded-lg shadow-lg">
-            <img src="/path/to/feature3.jpg" alt="Feature 3" className="w-full h-40 object-cover rounded-lg mb-4"/>
-            <h3 className="text-2xl text-background font-bold mb-2">Improve Efficiency</h3>
-            <p className="text-0.5xl text-background">Optimize your problem-solving approach for better results.</p>
-          </div>
-        </section>
-
-        <section className="bg-foreground bg-center p-8 my-8 rounded-lg shadow-lg" style={{ backgroundImage: "url('/path/to/benefit1.jpg')" }}>
-          <h3 className="text-3xl text-background font-bold ">Enhance Problem-Solving Skills</h3>
-          <p className=" text-background">Coding enhances problem-solving skills by breaking down complex problems into manageable tasks. This fosters a systematic approach to debugging and optimizing code.</p>
-        </section>
-
-        <section className="bg-foreground bg-center p-8 my-8 rounded-lg shadow-lg" style={{ backgroundImage: "url('/path/to/benefit2.jpg')" }}>
-          <h3 className="text-3xl text-background font-bold ">Boost Technical Proficiency</h3>
-          <p className=" text-background">Consistent coding practice improves technical proficiency by solidifying understanding of algorithms, data structures, and design patterns, essential for efficient and scalable software development.</p>
-        </section>
-
+        </div>
+  
+        <FunnyCodeComponent />
         <UpcomingEvent />
         <UsedTechStack />
       </main>
-
-      {/* Footer */}
-      <footer className="bg-gray-800 text-white p-4 text-center">
-        &copy; 2024 LeetStats. All rights reserved.
-      </footer>
     </div>
-    </div>
+  </div>
+  
   );
-}
+};
 
 export default Home;
