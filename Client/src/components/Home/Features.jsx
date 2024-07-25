@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Features = () => {
   return (
     <div className="w-full mx-auto space-y-10 flex flex-col items-center justify-center px-4">

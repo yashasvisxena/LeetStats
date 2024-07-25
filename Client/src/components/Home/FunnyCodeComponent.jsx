@@ -29,7 +29,7 @@ const FunnyCodeComponent = () => {
     const interval = setInterval(() => {
       const randomIndex = Math.floor(Math.random() * codeSnippets.length);
       setRandomCode(codeSnippets[randomIndex]);
-    }, 3000);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, []);
@@ -37,10 +37,10 @@ const FunnyCodeComponent = () => {
   return (
     <div
       id="funnyCode"
-      className="flex justify-center w-full p-4 sm:w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4 min-h-40"
+      className=" flex text-lg sm:w-1/3 justify-center items-center p-6 rounded-lg shadow-inner shadow-foreground"
     >
-      <pre className="w-full flex text-lg justify-center items-center bg-primary-foreground p-4 rounded-lg shadow-xl">
-        <code className="whitespace-pre-wrap">{randomCode}</code>
+      <pre className="">
+        <code className="">{randomCode}</code>
       </pre>
     </div>
   );

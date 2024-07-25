@@ -21,8 +21,8 @@ const techStack = [
 
 const UsedTechStack = () => {
   return (
-    <div className=" bg-background w-fit flex flex-wrap justify-center p-6 rounded-lg shadow-lg mx-auto my-8">
-      <h2 className=" text-ground w-full text-3xl font-bold mb-4 text-center">Used Tech Stack</h2>
+    <div className=" w-fit flex flex-wrap justify-center p-6 rounded-lg shadow-inner shadow-foreground mx-auto my-8">
+      <h2 className=" text-ground w-full text-3xl font-bold mb-4 text-center">Tech Stack</h2>
       <div className={`grid grid-cols-2 sm:grid-cols-${techStack.length}`}>
       {techStack.map((tech, index) => (
         <div key={index} className=" flex flex-col items-center m-4 transform transition-transform duration-300 hover:scale-110">
