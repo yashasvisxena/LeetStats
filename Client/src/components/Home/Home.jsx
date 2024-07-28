@@ -30,10 +30,11 @@ const Home = () => {
         </p>
       </section>
 
-      <div className="my-8 mx-auto w-full max-w-6xl rounded-lg overflow-hidden shadow-sm shadow-foreground">
+      <div className="my-4 mx-auto w-full max-w-6xl rounded-lg overflow-hidden shadow-sm shadow-foreground">
         <img
           src={themeMode === "dark" ? statsDark : statsLight}
           alt="Cover Image"
+          loading="eager"
           className="w-full h-full object-cover"
         />
       </div>

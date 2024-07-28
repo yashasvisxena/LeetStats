@@ -21,12 +21,12 @@ const techStack = [
 
 const UsedTechStack = () => {
   return (
-    <div className=" w-fit flex flex-wrap justify-center p-6 rounded-lg shadow-inner shadow-foreground mx-auto my-8">
+    <div className="w-full flex flex-wrap justify-center rounded-lg shadow-inner shadow-foreground my-8">
       <h2 className=" text-ground w-full text-3xl font-bold mb-4 text-center">Tech Stack</h2>
-      <div className={`grid grid-cols-2 sm:grid-cols-8`}>
+      <div className="grid grid-cols-2 sm:grid-cols-8 gap-5">
       {techStack.map((tech, index) => (
         <div key={index} className=" flex flex-col items-center m-4 transform transition-transform duration-300 hover:scale-110">
-          <img src={tech.logo} alt={tech.name} className="h-16 w-16 object-contain" />
+          <img src={tech.logo} alt={tech.name} loading='lazy' className="h-16 w-16 object-contain" />
           <span className="text-lg font-medium">{tech.name}</span>
         </div>
       ))}
