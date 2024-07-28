@@ -1,16 +1,17 @@
+/* eslint-disable react/no-unescaped-entities */
 import UpcomingEvent from "./UpcomingEvent";
 import UsedTechStack from "./UsedTechStack";
 import FunnyCodeComponent from "./FunnyCodeComponent";
 import Features from "./Features";
-import statsDark from "./statsdark.png";
-import statsLight from "./statslight.png";
+import statsDark from "./Screenshots/statsdark.png";
+import statsLight from "./Screenshots/statslight.png";
 import useTheme from "@/Contexts/Theme";
 
 const Home = () => {
   const { themeMode } = useTheme();
   return (
-    <div className="min-h-screen flex flex-col h-full mx-auto items-center justify-center w-full">
-      <section className="my-8 text-center w-3/4">
+    <div className="min-h-screen max-w-6xl flex flex-col h-full mx-auto items-center justify-center w-full px-6">
+      <section className="my-8 text-center">
         <h2 className="text-xl sm:text-3xl font-bold mb-4">
           Track Your LeetCode Progress
         </h2>
