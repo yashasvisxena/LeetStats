@@ -57,7 +57,7 @@ const StudentList = () => {
     };
 
     fetchStudents();
-  }, [user.$id]);
+  }, []);
 
   useEffect(() => {
     if (data) {
@@ -77,7 +77,7 @@ const StudentList = () => {
       });
       setStudents(merged);
     }
-  }, [data]);
+  }, [data, students.length]);
 
   const sortedData = useMemo(() => {
     const sorted = [...students];
@@ -202,6 +202,7 @@ const StudentList = () => {
           <RefreshCcw className="w-4 h-4 sm:h-6 sm:w-6" />
         </Button>
         <Button
+          disabled={!filteredData.length || loading || networkStatus === 4 }
           variant="outline"
           className="text-xs sm:text-base sm:p-4 p-2"
           onClick={handleDownloadPDF}
@@ -215,6 +216,13 @@ const StudentList = () => {
       ) : error ? (
         <div className="text-red-500 text-center text-3xl">
           Error: {error.message}
+        </div>
+      ) : !filteredData.length ? (
+        <div className="space-y-4">
+          <div className="text-center text-5xl">No Students Found</div>
+          <div className="text-center text-3xl">
+            Open "Add Students Data" menu from Sidebar to add students .
+          </div>
         </div>
       ) : (
         <div className="flex border rounded-md flex-col sm:h-[72vh] h-[66vh]">

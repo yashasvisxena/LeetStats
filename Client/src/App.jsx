@@ -1,3 +1,4 @@
+import { ThemeProvider } from "@/Contexts/Theme";
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import Navbar from "./components/Header/Navbar";
@@ -12,8 +13,27 @@ import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import Signup from "./components/Header/Signup.jsx";
 import AuthLayout from "./components/Header/AuthLayout.jsx";
 
+
 function App() {
   const [loading, setLoading] = useState(true);
+
+  const [themeMode, setThemeMode] = useState(() => {
+    return localStorage.getItem("themeMode") || "dark";
+  });
+
+  const lightTheme = () => {
+    setThemeMode("light");
+  };
+
+  const darkTheme = () => {
+    setThemeMode("dark");
+  };
+
+  useEffect(() => {
+    document.querySelector("html").classList.remove("light", "dark");
+    document.querySelector("html").classList.add(themeMode);
+    localStorage.setItem("themeMode", themeMode); // Store user's theme choice in local storage
+  }, [themeMode]);
 
   const dispatch = useDispatch();
 
@@ -31,6 +51,7 @@ function App() {
   }, []);
 
   return (
+    <ThemeProvider value={{ themeMode, darkTheme, lightTheme }}>
     <div className="app flex flex-col min-h-screen overflow-y-hidden">
       <Navbar />
       <main className="flex justify-center flex-grow">
@@ -68,6 +89,7 @@ function App() {
       </main>
       <Footer />
     </div>
+     </ThemeProvider>
   );
 }
 
