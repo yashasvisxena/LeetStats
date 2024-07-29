@@ -16,48 +16,74 @@ import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import service from "@/Appwrite/config";
 import FileSubmit from "../Dashboard/FileSubmit";
-import { Query } from "appwrite"
+import { Query } from "appwrite";
 
 const Form = () => {
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      studentName: "",
-      userName: "",
+      studentNames: "",
+      userNames: "",
     },
   });
   const [loading, setLoading] = useState(false);
 
   const userData = useSelector((state) => state.auth.userData);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const submitStudent = async (data) => {
     try {
       setLoading(true);
-      const student = await service.listStudents([Query.equal("userId",[userData.$id]),Query.equal("studentUsername",[data.userName])]);
-      if (student.documents.length!=0) {setError("Student with userName already exists");return}
-      await service.addStudent(data.studentName, data.userName, userData.$id);
-      setError("")
+      setError("");
+      setSuccess("");
+
+      const names = data.studentNames.split(",").map((name) => name.trim());
+      const usernames = data.userNames
+        .split(",")
+        .map((username) => username.trim());
+
+      if (names.length !== usernames.length) {
+        setError("The number of names and usernames must match.");
+        setLoading(false);
+        return;
+      }
+
+      for (let i = 0; i < names.length; i++) {
+        const student = await service.listStudents([
+          Query.equal("userId", [userData.$id]),
+          Query.equal("studentUsername", [usernames[i]]),
+        ]);
+        if (student.documents.length !== 0) {
+          setError(`Student with username ${usernames[i]} already exists.`);
+          setLoading(false);
+          return;
+        }
+        await service.addStudent(names[i], usernames[i], userData.$id);
+      }
+
+      setSuccess("Students added successfully.");
       setLoading(false);
       window.location.reload();
     } catch (err) {
       setError(err.message);
+      setLoading(false);
     }
   };
 
   return (
     <Sheet>
-      <SheetTrigger asChild >
+      <SheetTrigger asChild>
         <Menu className="w-4 h-4 sm:h-6 sm:w-6" />
       </SheetTrigger>
-      <SheetContent side="left" >
+      <SheetContent side="left">
         <Card className="my-6 w-full">
           <CardHeader>
             <CardTitle className="text-base sm:text-2xl">
               Add Students Data
             </CardTitle>
             <CardDescription className="text-sm sm:text-base">
-              Add from a excel file which contains name and username of students
-              or enter manually.
+              Add from an excel file which contains names and usernames of
+              students or enter manually.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -70,25 +96,32 @@ const Form = () => {
                 {error}
               </p>
             )}
+            {success && (
+              <p className="text-green-500 text-sm sm:text-base text-center">
+                {success}
+              </p>
+            )}
             <form
               onSubmit={handleSubmit(submitStudent)}
               className="grid w-full max-w-sm items-center gap-3"
             >
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="studentNames">Names (comma separated)</Label>
               <Input
                 type="text"
-                id="name"
-                placeholder="Name"
-                {...register("studentName", { required: true })}
+                id="studentNames"
+                placeholder="Name1, Name2, ..."
+                {...register("studentNames", { required: true })}
               />
-              <Label htmlFor="username">Username</Label>
+              <Label htmlFor="userNames">Usernames (comma separated)</Label>
               <Input
                 type="text"
-                id="username"
-                placeholder="LeetCode Username"
-                {...register("userName", { required: true })}
+                id="userNames"
+                placeholder="Username1, Username2, ..."
+                {...register("userNames", { required: true })}
               />
-              <Button type="submit">Add</Button>
+              <Button type="submit" disabled={loading}>
+                {loading ? "Adding..." : "Add"}
+              </Button>
             </form>
           </CardContent>
         </Card>
