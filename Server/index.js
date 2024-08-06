@@ -15,7 +15,7 @@ function hmac_rawurlsafe_base64_string(distinct_id, secret) {
     .replace(/=+$/, '');
 }
 
-const INBOX_SECRET = W_F0I04NaLzhJEaEhuzRO3y7YCwJaLSbCXi973DHHe0;
+const INBOX_SECRET = "W_F0I04NaLzhJEaEhuzRO3y7YCwJaLSbCXi973DHHe0";
 
 async function startServer() {
   const app = express();
