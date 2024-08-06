@@ -174,11 +174,12 @@ const StudentList = () => {
 
   return (
     <>
-      <div className="flex w-full items-center sm:space-x-3 sm:space-y-0 space-y-2 justify-around sm:justify-start sm:flex-nowrap flex-wrap">
-        <div className="flex items-center w-full sm:w-[275px] space-x-2">
+      <div className="flex w-full items-center flex-wrap sm:space-x-3 sm:space-y-0 space-y-2 justify-around sm:justify-start">
+        <div className="flex w-11/12 sm:w-auto items-center justify-center space-x-2">
+          <Notif/>
           <Search className="w-4 h-4 sm:h-6 sm:w-6" />
           <Input
-            className="text-xs sm:text-base sm:p-4 p-2 sm:w-[250px] w-full"
+            className="text-xs sm:text-base sm:p-4 p-2 lg:w-[250px] w-full"
             type="text"
             placeholder="Search By Name or Username"
             value={search}
@@ -199,19 +200,20 @@ const StudentList = () => {
             </SelectContent>
           </Select>
         </div>
-        <Button variant="outline" onClick={() => refetch()}>
-          <RefreshCcw className="w-4 h-4 sm:h-6 sm:w-6" />
-        </Button>
-        <Button
-          disabled={!filteredData.length || loading || networkStatus === 4}
-          variant="outline"
-          className="text-xs sm:text-base sm:p-4 p-2"
-          onClick={handleDownloadPDF}
-        >
-          <Download className="w-4 mr-2 h-4 sm:h-6 sm:w-6" />
-          Download
-        </Button>
-        <Notif/>
+        <div className="flex items-center space-x-2">
+          <Button variant="outline" onClick={() => refetch()}>
+            <RefreshCcw className="w-4 h-4 sm:h-6 sm:w-6" />
+          </Button>
+          <Button
+            disabled={!filteredData.length || loading || networkStatus === 4}
+            variant="outline"
+            className="text-xs sm:text-base sm:p-4 p-2"
+            onClick={handleDownloadPDF}
+          >
+            <Download className="w-4 mr-2 h-4 sm:h-6 sm:w-6" />
+            Download
+          </Button>
+        </div>
       </div>
       {loading || networkStatus === 4 ? (
         <div className="text-center text-6xl">...Loading</div>
