@@ -25,6 +25,7 @@ import service from "@/Appwrite/config";
 import { Query } from "appwrite";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import Notif from "./Notif";
 
 const StudentList = () => {
   const user = useSelector((state) => state.auth.userData);
@@ -202,7 +203,7 @@ const StudentList = () => {
           <RefreshCcw className="w-4 h-4 sm:h-6 sm:w-6" />
         </Button>
         <Button
-          disabled={!filteredData.length || loading || networkStatus === 4 }
+          disabled={!filteredData.length || loading || networkStatus === 4}
           variant="outline"
           className="text-xs sm:text-base sm:p-4 p-2"
           onClick={handleDownloadPDF}
@@ -210,6 +211,7 @@ const StudentList = () => {
           <Download className="w-4 mr-2 h-4 sm:h-6 sm:w-6" />
           Download
         </Button>
+        <Notif/>
       </div>
       {loading || networkStatus === 4 ? (
         <div className="text-center text-6xl">...Loading</div>
