@@ -1,13 +1,25 @@
-import express from "express";
-import { ApolloServer } from "@apollo/server";
-import { expressMiddleware } from "@apollo/server/express4";
-import cors from "cors";
-import bodyParser from "body-parser";
-import axios from "axios";
+import express from 'express';
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import axios from 'axios';
+import crypto from 'crypto';
+
+// Define the HMAC generation function
+function hmac_rawurlsafe_base64_string(distinct_id, secret) {
+  return crypto
+    .createHmac('sha256', secret)
+    .update(distinct_id)
+    .digest('base64url')
+    .replace(/=+$/, '');
+}
+
+const INBOX_SECRET = W_F0I04NaLzhJEaEhuzRO3y7YCwJaLSbCXi973DHHe0;
 
 async function startServer() {
   const app = express();
-  const port= process.env.PORT || 4000
+  const port = process.env.PORT || 4000;
   const typeDefs = `
     type Student {
       studentName: String!
@@ -90,7 +102,18 @@ async function startServer() {
 
   await server.start();
 
-  app.use("/graphql", expressMiddleware(server));
+  app.use('/graphql', expressMiddleware(server));
+
+  app.get('/generate-subscriber-id', (req, res) => {
+    const distinct_id = req.query.distinct_id;
+
+    if (!distinct_id) {
+      return res.status(400).send('distinct_id is required');
+    }
+
+    const subscriber_id = hmac_rawurlsafe_base64_string(distinct_id, INBOX_SECRET);
+    res.json({ subscriber_id });
+  });
 
   app.listen(port, () => console.log(`Server started on port ${port}`));
 }
