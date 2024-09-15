@@ -80,6 +80,10 @@ const StudentList = () => {
     }
   }, [data, students.length]);
 
+  const calculatePoints = (student) => {
+    return student.easy * 100 + student.medium * 200 + student.hard * 400;
+  };
+
   const sortedData = useMemo(() => {
     const sorted = [...students];
     if (sort === "problems") {
@@ -88,6 +92,9 @@ const StudentList = () => {
       return sorted.sort((a, b) =>
         (a.studentName || "").localeCompare(b.studentName || "")
       );
+    }
+    else if (sort === "points") {
+      return sorted.sort((a, b) => calculatePoints(b) - calculatePoints(a));
     }
     return sorted;
   }, [students, sort]);
@@ -125,7 +132,7 @@ const StudentList = () => {
     const doc = new jsPDF();
 
     doc.setFontSize(16); // Increase the font size for the title
-    const userName = user.name;
+    const userName = user.name + " Sorted By : " + sort;
     const pageWidth = doc.internal.pageSize.width;
     const textWidth = doc.getTextWidth(userName);
     doc.text(userName, (pageWidth - textWidth) / 2, 10); // Center the title
@@ -138,6 +145,7 @@ const StudentList = () => {
       { header: "Easy", dataKey: "easy" },
       { header: "Medium", dataKey: "medium" },
       { header: "Hard", dataKey: "hard" },
+      { header: "Points", dataKey: "points" },
     ];
 
     // Prepare table rows
@@ -148,6 +156,7 @@ const StudentList = () => {
       easy: student.easy,
       medium: student.medium,
       hard: student.hard,
+      points: calculatePoints(student),
     }));
 
     // Generate the table in the PDF
@@ -196,6 +205,7 @@ const StudentList = () => {
               <SelectGroup>
                 <SelectItem value="problems">Problems</SelectItem>
                 <SelectItem value="name">Name</SelectItem>
+                <SelectItem value="points">Points</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -239,6 +249,7 @@ const StudentList = () => {
                 <TableHead className="text-center">Easy</TableHead>
                 <TableHead className="text-center">Medium</TableHead>
                 <TableHead className="text-center">Hard</TableHead>
+                <TableHead className="text-center">Points</TableHead>
                 <TableHead className="text-center">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -266,6 +277,9 @@ const StudentList = () => {
                     {student.medium}
                   </TableCell>
                   <TableCell className="text-red-500">{student.hard}</TableCell>
+                  <TableCell className="text-blue-500">
+                    {calculatePoints(student)}
+                  </TableCell>
                   <TableCell>
                     <div className="flex space-x-1 justify-center">
                       <Button
